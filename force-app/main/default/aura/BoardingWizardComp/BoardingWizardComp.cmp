@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,lightning:isUrlAddressable,force:hasRecordId" access="global" >
+   
+<aura:html tag="style">
+    html {
+        background-color: white;
+    }
+    .slds-brand-band:before {
+    	background-image: none;
+	}	
+    .slds-brand-band:after {
+    	background-image: none;
+	}
+    .slds-card {
+    	border: none;
+    }
+    </aura:html>
+
+    <aura:attribute name="recordId"	type="String" 	description="ID of the record."/>
+    <aura:handler name="init" value="this" action="{!c.doInit}"/> 
+    
+    <c:boardingWizard aura:id="bwLWC" objectName="Underwriting__c" recordId="{!v.recordId}"/><!--oncloseScreen="{!c.closeScreen}" oncontinueToNextScreen="{!c.continueToNextScreen}" onOpenScreen="{!c.openScreen}"/>-->
+</aura:component>

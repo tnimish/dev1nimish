@@ -1,0 +1,21 @@
+/* make the table a 100% wide by default */
+table 
+{
+    width: 100%;
+}
+    
+/* if the browser window is at least 800px-s wide: */
+@media screen and (min-width: 800px) 
+{
+    table 
+    {
+      width: 90%;
+    }
+}
+    
+/* if the browser window is at least 1000px-s wide: */
+@media screen and (min-width: 1000px) {
+table 
+{
+  width: 80%;}
+}

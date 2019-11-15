@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>CommonWrapperClass</members>
+        <members>BoardingWizardVFC</members>
+        <members>BWHelper</members>
+	    <members>BWRequestStageHelper</members>
+   	    <members>BWUnderwritingStageHelper</members>
+	    <members>BWDocumentCreationStageHelper</members>
+	    <members>BWAccountSetupStageHelper</members>
+        <members>NewDealerAppController</members>
+	    <members>AccountManager</members>
+	    <members>Constants</members>	
+	    <members>UtilityClass</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>BoardingWizardComp</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>boardingWizard</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>46.0</version>
+</Package>

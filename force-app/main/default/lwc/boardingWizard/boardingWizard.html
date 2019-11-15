@@ -1,0 +1,1760 @@
+<!-------------------------------------------------------- Start of Main Template -------------------------------------------------------->
+<template>
+	<template if:true={isConsolidatedUW}>
+	<br/>  
+	<div style="text-align:center">This underwriting has been consolidated with another underwriting.  Please <b><a href={consolidatedUWURL}>click here</a></b> to launch the Boarding Wizard for the consolidated underwriting.</div>
+  </template>
+
+  <template if:false={isConsolidatedUW}>
+	<!-------------------------------------------------------- Start of Main Section -------------------------------------------------------->
+	<lightning-layout>
+		<!-------------------------------------------------------- Start of Revilio Screen -------------------------------------------------------->
+		<div if:false={isLoaded}  style="width:1575px;text-align:center">
+			<table style="height:592px;vertical-align:top;width:1575px;"> 
+				<tr>
+					<td>
+						<div style="text-align:center">
+							<img src = "{bwiconflashingimage}">
+							&nbsp;&nbsp;<span style="color:blue;font-size:15px;font-weight:bold;text-align:center">Revilio ...</span><span class="slds-text-title_caps" style="font-size:16px;color:red;font-weight:bold">&nbsp;&nbsp;{screenName} </span><span style="font-size:18px;font-weight:bold;text-align:center">screen!</span>
+						</div>
+						<br/>
+					</td>
+				</tr>
+			</table>                        
+		</div>
+		<!-------------------------------------------------------- End of Revilio Screen -------------------------------------------------------->
+		
+		<!-------------------------------------------------------- Start of Boarding Wizard Banner -------------------------------------------------------->
+		<div if:true={isLoaded} style="width:1575px;"> 
+			<template if:true={isLoaded}>
+				<div class="custom-box slds-box slds-p-around_medium">
+					<table style="width:100%;border:1px">
+						<tr>
+							<td style="width:99%;text-align:center">
+								<template if:true={isWelcomeScreen}>
+									<div class="slds-text-title_caps" style="font-size:16px;font-weight:bold;text-align:center">
+										<img src = "{bwiconimage}">&nbsp;Welcome to Customer Boarding Wizard!
+									</div>
+								</template>
+								<template if:false={isWelcomeScreen}>
+									<div class="slds-text-title_caps" style="font-size:16px;font-weight:bold;text-align:center">
+										<img src = "{bwiconimage}">&nbsp;{screenName}
+									</div>
+								</template>
+							</td>
+							<td style="text-align:right">
+								<template if:false={isWelcomeScreen}>
+									<lightning-button-group style="text-align:right;vertical-align:middle">
+										<template if:true={showPreviousScreenButton}>
+											<lightning-button label="Previous X Screen" icon-position="left" icon-name="utility:left" data-id="previousScreenBtn" name={screenName} type="submit" onclick={openScreen} style="width:200px;">&nbsp;</lightning-button>
+										</template>  
+										<template if:true={showNextScreenButton}>
+											<lightning-button if:false={isCurrentScreenLastOnStage} label="Next X Screen" icon-position="right" icon-name="utility:right" data-id="nextScreenBtn" name={screenName} type="submit" onclick={openScreen} style="width:145px;">&nbsp;</lightning-button>
+										</template>
+									</lightning-button-group>
+								</template>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</template>
+			<p>&nbsp;</p> <!-- Remove -->
+
+			<!-------------------------------------------------------- Start of Welcome Screen ------------------------------------------------------>
+				
+			<template if:true={isWelcomeScreen}>
+				<div class="slds-box">
+					<template if:true={isLoaded}>
+						<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%">
+							<thead>
+								<tr class="slds-line-height_reset">
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Starting Record (NDA / Case)">Starting Record (NDA / Case)</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Underwriting Request">Underwriting Request</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Underwriting Stage">Underwriting Stage</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Underwriting Status">Underwriting Status</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Underwriting Record Type">Underwriting Record Type</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Review Type">Review Type</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Initiating Account">Initiating Account</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Underwriting Owner">Underwriting Owner</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="slds-hint-parent">
+									<td data-label="Starting Record (NDA / Case)">
+										<div class="slds-truncate">
+											<lightning-formatted-url value={startingRecordURL} tooltip={startingRecordURL} label={startingRecordName} target="_blank" ></lightning-formatted-url>
+										</div>
+									</td>
+									<td data-label="Underwriting Request">
+										<div class="slds-truncate">
+											<lightning-formatted-url value={uwRecordURL} tooltip={uwRecordURL} label={uwRecordName} target="_blank" ></lightning-formatted-url>
+										</div>
+									</td>
+									<td data-label="Underwriting Stage">
+										<div class="slds-truncate">
+											{uwCurrentStage}
+										</div>
+									</td>
+									<td data-label="Underwriting Status">
+										<div class="slds-truncate">
+											{uwCurrentStatus}
+										</div>
+									</td>
+									<td data-label="Underwriting Record Type">
+										<div class="slds-truncate">
+											{uwRecordTypeName}
+										</div>
+									</td>
+									<td data-label="Review Type">
+										<div class="slds-truncate">
+											{uwReviewType}
+										</div>
+									</td>
+									<td data-label="Initiating Account">
+										<div class="slds-truncate">
+											<lightning-formatted-url value={initiatingAccountRecordURL} tooltip={initiatingAccountRecordURL} label={initiatingAccountRecordName} target="_blank" ></lightning-formatted-url>
+										</div>
+									</td>
+									<td data-label="Underwriting Owner">
+										<div class="slds-truncate">
+											{currentOwnerName}
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<p>&nbsp;</p> <!-- Remove -->
+						<p>&nbsp;</p> <!-- Remove -->
+						<p>&nbsp;</p> <!-- Remove -->
+
+						<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%">
+							<thead>
+								<tr class="slds-line-height_reset">
+									<th scope="col">
+										<div class="slds-truncate" title="Wizard Instructions">Wizard Instructions</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="slds-hint-parent">
+									<td data-label="1">
+										<div class="slds-truncate" title="1">This wizard will guide you through the customer boarding process.</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<p>&nbsp;</p> <!-- Remove -->
+						<p>&nbsp;</p> <!-- Remove -->
+						<p>&nbsp;</p> <!-- Remove -->   
+						<table style="width:100%">
+							<tr>
+								<template if:true={displaySelectCareNumberButton}>
+									<td style="text-align:left">
+										<lightning-button value="Select Care Number"  style="text-align:left" label="Select Care Number" onclick={openSelectCarePopup}></lightning-button>
+									</td>
+								</template>
+								<td style="text-align:right">
+									<template if:true={displayScreensList}>
+										<lightning-button data-id="nextScreenBtn" label="Continue" name="Welcome" type="submit" onclick={openScreen}>Continue&nbsp;</lightning-button>
+										<div>&nbsp;</div>
+									</template>
+								</td>
+							</tr>
+						</table> 
+						
+						<div class="slds-theme_default">
+							<template if:true={openSelectCareModal}>
+								<div>
+									<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+										<div class="slds-modal__container">
+											<header class="slds-modal__header">
+												<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeSelectCareModal}>
+													<lightning-icon icon-name="utility:close" size="medium">
+													</lightning-icon>
+													<span class="slds-assistive-text">Close</span>
+												</button>
+												<h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate"></h2>
+											</header>
+					
+											<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3" style="height:60px;">  
+												<p><b>Please refresh this Boarding Wizard page after performing appropriate action on the select care number page.</b></p>
+											</div>
+					
+					
+											<footer class="slds-modal__footer">
+													<lightning-button label="Open" variant="brand" onclick={openSelectCareNumberPage}></lightning-button>
+													&nbsp;<lightning-button label="Cancel" variant="neutral" onclick={closeSelectCareModal}></lightning-button>
+											</footer>
+										</div>
+									</section>
+									<div class="slds-backdrop slds-backdrop_open"></div>
+								</div>
+							</template>
+						</div>
+
+					</template>
+				</div>
+			</template>
+			
+			<!-------------------------------------------------------- End of Welcome Screen -------------------------------------------------------->
+
+			<!-------------------------------------------------------- Start of Steps Screens -------------------------------------------------------->
+			<template if:false={isWelcomeScreen}>
+				<div class="custom-box slds-box slds-p-around_medium">
+					<template if:true={isLoaded}>
+						<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%">
+							<thead>
+								<tr class="slds-line-height_reset">
+									<th scope="col">
+										<div class="slds-truncate" title="Starting Record (NDA / Case)">Starting Record (NDA / Case)</div>
+									</th>
+									<th scope="col">
+										<div class="slds-truncate" title="Underwriting Request">Underwriting Request</div>
+									</th>
+									<th scope="col">
+										<div class="slds-truncate" title="Underwriting Stage">Underwriting Stage</div>
+									</th>
+									<th scope="col">
+										<div class="slds-truncate" title="Underwriting Status">Underwriting Status</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Underwriting Record Type">Underwriting Record Type</div>
+									</th>
+									<th class="" scope="col">
+										<div class="slds-truncate" title="Review Type">Review Type</div>
+									</th>
+									<th scope="col">
+										<div class="slds-truncate" title="Initiating Account">Initiating Account</div>
+									</th>
+									<th scope="col">
+										<div class="slds-truncate" title="Underwriting Owner">Underwriting Owner</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="slds-hint-parent">
+									<td data-label="Starting Record (NDA / Case)">
+										<div class="slds-truncate">
+											<lightning-formatted-url value={startingRecordURL} tooltip={startingRecordURL} label={startingRecordName} target="_blank"></lightning-formatted-url>
+										</div>
+									</td>
+									<td data-label="Underwriting Request">
+										<div class="slds-truncate">
+											<lightning-formatted-url value={uwRecordURL} tooltip={uwRecordURL} label={uwRecordName}  target="_blank"></lightning-formatted-url>
+										</div>
+									</td>
+									<td data-label="Underwriting Stage">
+										<div class="slds-truncate">
+											{uwCurrentStage}
+										</div>
+									</td>
+									<td data-label="Underwriting Status">
+										<div class="slds-truncate">
+											{uwCurrentStatus}
+										</div>
+									</td>
+									<td data-label="Underwriting Record Type">
+										<div class="slds-truncate">
+											{uwRecordTypeName}
+										</div>
+									</td>
+									<td data-label="Review Type">
+										<div class="slds-truncate">
+											{uwReviewType}
+										</div>
+									</td>
+									<td data-label="Initiating Account">
+										<div class="slds-truncate">
+											<lightning-formatted-url value={initiatingAccountRecordURL} tooltip={initiatingAccountRecordURL}   label={initiatingAccountRecordName} target="_blank"></lightning-formatted-url>
+										</div>
+									</td>
+									<td data-label="Underwriting Owner">
+										<div class="slds-truncate">
+											{currentOwnerName}
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</template>
+
+					<!--
+					<template if:true={pageMessage}>
+						<div>&nbsp;</div>
+						<div>&nbsp;</div>
+						<div style="text-align:left;background-color:lightyellow;color:red">{pageMessage}</div>
+					</template>
+				-->
+				
+					<div>&nbsp;</div>
+
+					<div if:false={hideMainSteps} >
+						<table style="width:100%">
+							<template if:true={isLoaded}>
+								<tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td style="text-align:justify;">&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td style="font-weight:bold;text-align:center;">&nbsp;</td>
+									<td>&nbsp;&nbsp;</td>
+								</tr>
+								<template if:true={showStepsCompletedText}>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td style="text-align:justify;">&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										
+										<template if:true={showStepsCompletedText}>
+											<td style="color:gray;font-weight:bold;text-align:center;width:110px;">Step Completed</td>
+											<td>&nbsp;&nbsp;</td>
+										</template>
+										<td>&nbsp;&nbsp;</td>
+									</tr>
+								</template>
+							</template>
+				
+							<template for:each={steps} for:item="step">
+								<tr key={step.stepNumber} style="text-align:left;background-color:whitesmoke;border-color:lightgray;border-width:1px;" if:false={step.hiddenOnScreen}>
+									<td style="text-align:left;background-color:gray;color:white;width:1px;">&nbsp;{step.stepNumber}&nbsp;</td>
+									<td>&nbsp;</td>
+									<td style="text-align:left;height:1px;min-width:250px;">
+										<lightning-formatted-rich-text value={step.displayText}></lightning-formatted-rich-text>
+									</td>
+									<td>&nbsp;</td>
+									
+									<td style="text-align:left;min-width:250px;">
+										<lightning-layout multiple-rows="true">
+											<lightning-layout-item style="min-width:250px;max-width:250px">  
+												<!-- Element 1 Wrapper -->
+												<lightning-layout-item if:true={step.element1Wrapper.isButton}>
+												   <template if:false={step.element1Wrapper.isButtonSpinner}>
+														<lightning-button class="slds-button slds-button_neutral slds-button_stretch" data-id={step.element1Wrapper.elementActionName} name={step.element1Wrapper.elementLabel} type="submit" onclick={invokeStepElementAction} label={step.element1Wrapper.elementLabel} variant="base" data-steptitle={step.stepTitle} data-elementnumber="1"></lightning-button>
+												   </template>
+												   
+												   <template if:true={step.element1Wrapper.isButtonSpinner}>
+                                                        <div style="text-align:right" if:true={step.element1Wrapper.isButtonSpinner}>
+                                                            <img src = "/img/loading.gif" width="20px" height="20px" >
+                                                            &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.Please wait ...&nbsp;</span>
+                                                        </div>
+													</template>
+													
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element1Wrapper.isCheckbox}>
+													<lightning-input type="checkbox" label={step.element1Wrapper.elementLabel} data-id={step.element1Wrapper.elementActionName}></lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element1Wrapper.isURL}> 
+													<lightning-formatted-url class="slds-button slds-button_neutral slds-button_stretch" value={step.element1Wrapper.elementActionName} target="_blank" tooltip="" label={step.element1Wrapper.elementLabel}></lightning-formatted-url>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element1Wrapper.isText}>
+													<!-- <div>{step.element1Wrapper.textData}</div> -->
+													<lightning-formatted-rich-text value={step.element1Wrapper.textData} ></lightning-formatted-rich-text>
+												</lightning-layout-item>
+												<template if:true={step.element1Wrapper.isPicklist}>
+													<template if:true={isAddressVerificationScreen} >
+														<lightning-combobox value={step.element1Wrapper.elementSelectedPicklistValue} options={step.element1Wrapper.cbOptions} onchange={handleChange} 
+															style="width:300px"	variant="label-hidden" label={step.element1Wrapper.elementLabel} data-id={step.element1Wrapper.elementLabel} 
+															data-screenname={screenName} data-steptitle={step.stepTitle} data-stepid={step.stepRecordId} data-stepcompleted={step.stepCompleted}  >
+														</lightning-combobox>
+													</template>
+													<template if:false={isAddressVerificationScreen} >
+														<lightning-combobox value={step.element1Wrapper.elementSelectedPicklistValue} options={step.element1Wrapper.cbOptions} onchange={handleChange} 
+															style="width:125px" variant="label-hidden" label={step.element1Wrapper.elementLabel} data-id={step.element1Wrapper.elementLabel} 
+															data-screenname={screenName} data-steptitle={step.stepTitle} data-stepid={step.stepRecordId} data-stepcompleted={step.stepCompleted}  >
+														</lightning-combobox>
+													</template>
+												</template>
+												<lightning-layout-item if:true={step.element1Wrapper.isCurrency}>
+													<lightning-input type="number" formatter="currency" label={step.element1Wrapper.elementLabel} placeholder={step.element1Wrapper.elementLabel} title={step.element1Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element1Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element1Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element1Wrapper.isDate}>
+													<lightning-input type="date" label={step.element1Wrapper.elementLabel} placeholder={step.element1Wrapper.elementLabel} title={step.element1Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element1Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element1Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+											    <lightning-layout-item if:true={step.element1Wrapper.isLookup}>
+													<div style="width: 250px;">
+														<c-custom-lookup searchfield={step.element1Wrapper.lookupFieldName} object-name={step.element1Wrapper.lookupObjectName} onselectedrec={handleselect} selected-record={step.lookupSelectedValue} placeholder={step.lookupPlaceHolderText} recordids-to-search={step.element1Wrapper.validLookupRecordIds}></c-custom-lookup>
+													</div>
+												</lightning-layout-item> 
+												<!-- Element 2 Wrapper -->
+												<lightning-layout-item if:true={step.element2Wrapper.isButton}> 
+													<template if:false={step.element2Wrapper.isButtonSpinner}>
+														<lightning-button class="slds-button slds-button_neutral slds-button_stretch" data-id={step.element2Wrapper.elementActionName} name={step.element2Wrapper.elementLabel} type="submit" onclick={invokeStepElementAction} label={step.element2Wrapper.elementLabel} variant="base" data-steptitle={step.stepTitle} data-elementnumber="2"></lightning-button>
+													</template>
+													<template if:true={step.element2Wrapper.isButtonSpinner}>
+															<div style="text-align:right" if:true={step.element2Wrapper.isButtonSpinner}>
+																<img src = "/img/loading.gif" width="20px" height="20px" >
+																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+															</div>
+														</template>
+													</lightning-layout-item>
+												<lightning-layout-item if:true={step.element2Wrapper.isCheckbox}> 
+													{step.element2Wrapper.elementLabel}&nbsp;<input type="checkbox" data-id={step.element2Wrapper.elementActionName} name={step.element2Wrapper.elementLabel}>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element2Wrapper.isURL}> 
+													<lightning-formatted-url class="slds-button slds-button_neutral slds-button_stretch" value={step.element2Wrapper.elementActionName} target="_blank" tooltip="" label={step.element2Wrapper.elementLabel}></lightning-formatted-url>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element2Wrapper.isText}> 
+													<div>{step.element2Wrapper.textData}</div>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element2Wrapper.isPicklist}> 
+													<lightning-combobox value={step.element2Wrapper.elementSelectedPicklistValue} options={step.element2Wrapper.cbOptions} onchange={handleChange}
+														style="width:125px" variant="label-hidden" label={step.element2Wrapper.elementLabel}	data-id={step.element2Wrapper.elementLabel}
+														data-screenname={screenName} data-steptitle={step.stepTitle} data-stepid={step.stepRecordId} data-stepcompleted={step.stepCompleted}>
+													</lightning-combobox>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element2Wrapper.isCurrency}>
+													<lightning-input type="number" formatter="currency" label={step.element2Wrapper.elementLabel} placeholder={step.element2Wrapper.elementLabel} title={step.element2Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element2Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element2Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element2Wrapper.isDate}>
+														<lightning-input type="date" label={step.element2Wrapper.elementLabel} placeholder={step.element2Wrapper.elementLabel} title={step.element2Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element2Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element2Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+
+												<!-- Element 3 Wrapper -->
+												<lightning-layout-item if:true={step.element3Wrapper.isButton}> 
+												    <template if:false={step.element3Wrapper.isButtonSpinner}>
+														<lightning-button class="slds-button slds-button_neutral slds-button_stretch" data-id={step.element3Wrapper.elementActionName} name={step.element3Wrapper.elementLabel} type="submit" onclick={invokeStepElementAction} label={step.element3Wrapper.elementLabel} variant="base" data-steptitle={step.stepTitle} data-elementnumber="3"></lightning-button>
+													</template>
+													<template if:true={step.element3Wrapper.isButtonSpinner}>
+															<div style="text-align:right" if:true={step.element3Wrapper.isButtonSpinner}>
+																<img src = "/img/loading.gif" width="20px" height="20px" >
+																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+															</div>
+														</template>
+													</lightning-layout-item>
+												<lightning-layout-item if:true={step.element3Wrapper.isCheckbox}> 
+													{step.element3Wrapper.elementLabel}&nbsp;<input type="checkbox" data-id={step.element3Wrapper.elementActionName} name={step.element3Wrapper.elementLabel}>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element3Wrapper.isURL}> 
+													<lightning-formatted-url class="slds-button slds-button_neutral slds-button_stretch" value={step.element3Wrapper.elementActionName} target="_blank" tooltip="" label={step.element3Wrapper.elementLabel}></lightning-formatted-url>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element3Wrapper.isText}> 
+													<div>{step.element3Wrapper.textData}</div>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element3Wrapper.isPicklist}> 
+													<lightning-combobox value={step.element3Wrapper.elementSelectedPicklistValue} options={step.element3Wrapper.cbOptions} onchange={handleChange}
+														style="width:125px" variant="label-hidden" label={step.element3Wrapper.elementLabel}	data-id={step.element3Wrapper.elementLabel}
+														data-screenname={screenName} data-steptitle={step.stepTitle} data-stepid={step.stepRecordId} data-stepcompleted={step.stepCompleted}>
+													</lightning-combobox>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element3Wrapper.isCurrency}>
+													<lightning-input type="number" formatter="currency" label={step.element3Wrapper.elementLabel} placeholder={step.element3Wrapper.elementLabel} title={step.element3Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element3Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element3Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element3Wrapper.isDate}>
+														<lightning-input type="date" label={step.element3Wrapper.elementLabel} placeholder={step.element3Wrapper.elementLabel} title={step.element3Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element3Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element3Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+												
+												<!-- Element 4 Wrapper -->
+												<lightning-layout-item if:true={step.element4Wrapper.isButton}> 
+													<template if:false={step.element4Wrapper.isButtonSpinner}>
+														<lightning-button class="slds-button slds-button_neutral slds-button_stretch" data-id={step.element4Wrapper.elementActionName} name={step.element4Wrapper.elementLabel} type="submit" onclick={invokeStepElementAction} label={step.element4Wrapper.elementLabel} variant="base" data-steptitle={step.stepTitle} data-elementnumber="4"></lightning-button>
+													</template>
+													<template if:true={step.element4Wrapper.isButtonSpinner}>
+															<div style="text-align:right" if:true={step.element4Wrapper.isButtonSpinner}>
+																<img src = "/img/loading.gif" width="20px" height="20px" >
+																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+															</div>
+														</template>
+													</lightning-layout-item>
+												<lightning-layout-item if:true={step.element4Wrapper.isCheckbox}> 
+													{step.element4Wrapper.elementLabel}&nbsp;<input type="checkbox" data-id={step.element4Wrapper.elementActionName} name={step.element4Wrapper.elementLabel}>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element4Wrapper.isURL}> 
+													<lightning-formatted-url class="slds-button slds-button_neutral slds-button_stretch" value={step.element4Wrapper.elementActionName} target="_blank" tooltip="" label={step.element4Wrapper.elementLabel}></lightning-formatted-url>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element4Wrapper.isText}> 
+													<div>{step.element4Wrapper.textData}</div>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element4Wrapper.isPicklist}> 
+													<lightning-combobox value={step.element4Wrapper.elementSelectedPicklistValue} options={step.element4Wrapper.cbOptions} onchange={handleChange}
+														style="width:125px" variant="label-hidden" label={step.element4Wrapper.elementLabel}	data-id={step.element4Wrapper.elementLabel}
+														data-screenname={screenName} data-steptitle={step.stepTitle} data-stepid={step.stepRecordId} data-stepcompleted={step.stepCompleted}>
+													</lightning-combobox>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element4Wrapper.isCurrency}>
+													<lightning-input type="number" formatter="currency" label={step.element4Wrapper.elementLabel} placeholder={step.element4Wrapper.elementLabel} title={step.element4Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element4Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element4Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element4Wrapper.isDate}>
+														<lightning-input type="date" label={step.element4Wrapper.elementLabel} placeholder={step.element4Wrapper.elementLabel} title={step.element4Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element4Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element4Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+												
+												<!-- Element 5 Wrapper -->
+												<lightning-layout-item if:true={step.element5Wrapper.isButton}>
+													<template if:false={step.element5Wrapper.isButtonSpinner}> 
+														<lightning-button class="slds-button slds-button_neutral slds-button_stretch" data-id={step.element5Wrapper.elementActionName} name={step.element5Wrapper.elementLabel} type="submit" onclick={invokeStepElementAction} label={step.element5Wrapper.elementLabel} variant="base" data-steptitle={step.stepTitle} data-elementnumber="5"></lightning-button>
+													</template>
+													<template if:true={step.element5Wrapper.isButtonSpinner}>
+                                                            <div style="text-align:right" if:true={step.element5Wrapper.isButtonSpinner}>
+                                                                <img src = "/img/loading.gif" width="20px" height="20px" >
+                                                                &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+                                                            </div>
+                                                    </template>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element5Wrapper.isCheckbox}> 
+													{step.element5Wrapper.elementLabel}&nbsp;<input type="checkbox" data-id={step.element5Wrapper.elementActionName} name={step.element5Wrapper.elementLabel}>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element5Wrapper.isURL}> 
+													<lightning-formatted-url class="slds-button slds-button_neutral slds-button_stretch" value={step.element5Wrapper.elementActionName} target="_blank" tooltip="" label={step.element5Wrapper.elementLabel}></lightning-formatted-url>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element5Wrapper.isText}> 
+													<div>{step.element5Wrapper.textData}</div>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element5Wrapper.isPicklist}> 
+													<lightning-combobox value={step.element5Wrapper.elementSelectedPicklistValue} options={step.element5Wrapper.cbOptions} onchange={handleChange}
+														style="width:125px" variant="label-hidden" label={step.element5Wrapper.elementLabel}	data-id={step.element5Wrapper.elementLabel}
+														data-screenname={screenName} data-steptitle={step.stepTitle} data-stepid={step.stepRecordId} data-stepcompleted={step.stepCompleted}>
+													</lightning-combobox>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element5Wrapper.isCurrency}>
+													<lightning-input type="number" formatter="currency" label={step.element5Wrapper.elementLabel} placeholder={step.element5Wrapper.elementLabel} title={step.element5Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element5Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element5Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+												<lightning-layout-item if:true={step.element5Wrapper.isDate}>
+														<lightning-input type="date" label={step.element2Wrapper.elementLabel} placeholder={step.element5Wrapper.elementLabel} title={step.element5Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element5Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element5Wrapper.elementSelectedPicklistValue}></lightning-input>
+												</lightning-layout-item>
+											</lightning-layout-item>  
+										</lightning-layout>
+									</td>
+									<td style="text-align:center">
+										<!--{step.userAnswer}-->
+										<template if:false={step.readOnlyCheckMark}>
+											<template if:false={step.stepCompleted}>
+												<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle}  style="font-size:24px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center">
+													<img data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=true src={bwgraycheckbox} onclick={handleStepCompletedClick}/>
+												</div>
+											</template>
+											<template if:true={step.stepCompleted}>
+												<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle} style="font-size:14px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center" >
+													<img data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=false src={bwgraycheckboxcheckedgreen} onclick={handleStepCompletedClick}/>
+												</div>
+											</template>
+										</template >
+										<template if:true={step.readOnlyCheckMark}>
+											<template if:false={step.stepCompleted}>
+												<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=false  style="font-size:14px;height:26px;cursor:no-drop;color:red"  class="slds-truncate slds-align_absolute-center">
+													&#x2717;
+												</div>
+											</template>
+											<template if:true={step.stepCompleted}>
+												<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=true  style="font-size:14px;height:26px;cursor:no-drop"  class="slds-truncate slds-align_absolute-center">
+													<img data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=true src={bwgreencheckmarknocbimage}/>
+												</div>
+											</template>
+										</template>
+									</td>
+									<td>&nbsp;&nbsp;</td>
+								</tr>
+								<tr key={step.stepNumber} if:false={step.hiddenOnScreen}>
+									<td>&nbsp;</td>
+								</tr>
+							</template>
+						</table>
+					</div>
+
+					<!-------------------------------------------------------- Start of Duplicate Application Screen -------------------------------------------------------->
+					<template if:true={dupAppScreen}>
+						<div style="overflow: auto;">
+							<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%">
+								<thead>
+									<tr class="slds-line-height_reset">
+										<th class="" scope="col">
+											<div class="slds-truncate slds-align_absolute-center" title="Prospect Record">Prospect Record</div>
+										</th>
+										<th class="" scope="col">
+											<div class="slds-truncate slds-align_absolute-center" title="New Dealer Application Record">New Dealer Application Record</div>
+										</th>
+										<th class="" scope="col">
+											<div class="slds-truncate slds-align_absolute-center" title="Underwriting">Underwriting</div>
+										</th>
+										<th class="" scope="col">
+											<div class="slds-truncate slds-align_absolute-center" title="TCFIF Business Entity">TCFIF Business Entity</div>
+										</th>
+										<th class="" scope="col">
+											<div class="slds-truncate slds-align_absolute-center" title="Select NDA as Primary">Select NDA as Primary</div>
+										</th>
+										<th class="" scope="col">
+											<div class="slds-truncate slds-align_absolute-center" title="Change Prospect to Co-Borrower(Multi Debtor)">Change Prospect to Co-Borrower(Multi Debtor)</div>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<template for:each={dupeApps} for:item="dupeApp">
+										<tr key={dupeApp.id} class="slds-hint-parent">
+											<td data-label="Prospect Record">
+												<div class="slds-truncate slds-align_absolute-center" title="">
+													<lightning-formatted-url value={dupeApp.prospectId} target="_blank" tooltip="Go to Prospect" label={dupeApp.prospectName}></lightning-formatted-url>
+												</div>
+											</td>
+											<td data-label="New Dealer Application Record">
+												<div class="slds-truncate slds-align_absolute-center" title="">
+													<lightning-formatted-url value={dupeApp.ndaId} target="_blank" tooltip="Go to NDA" label={dupeApp.ndaName}></lightning-formatted-url>
+												</div>
+											</td>
+											<td data-label="Underwriting">
+												<div class="slds-truncate slds-align_absolute-center" title="">
+													<lightning-formatted-url value={dupeApp.underwritingId} target="_blank" tooltip="Go to Underwriting" label={dupeApp.underwritingName}></lightning-formatted-url>
+												</div>
+											</td>
+											<td data-label="TCFIF Business Entity">
+												<div class="slds-truncate slds-align_absolute-center" title="">
+													{dupeApp.businessEntity}
+												</div>
+											</td>
+											<td data-label="Select NDA as Primary" >														
+												<div class="slds-truncate slds-align_absolute-center" title="" if:false={dupeApp.primaryNDA} data-id={dupeApp.primaryNDAIndex} onclick={handleDupeAppTableCheckbox} style="font-size: 28px;cursor:pointer;height:30px;">																
+													&#x25A2;															
+												</div>														
+												<div class="slds-truncate slds-align_absolute-center" title="" if:true={dupeApp.primaryNDA} data-id={dupeApp.primaryNDAIndex} onclick={handleDupeAppTableCheckbox} style="font-size: 18px;cursor:pointer;height:30px;">
+													&#x2705;													
+												</div>
+											</td>
+											<td data-label="Change Prospect to Co-Borrower (Multi Debtor)">
+												<div class="slds-truncate slds-align_absolute-center" title="" if:false={dupeApp.coBorrower} data-id={dupeApp.coBorrowerIndex} onclick={handleDupeAppTableCheckbox} style="font-size: 28px;cursor:pointer;height:30px;">																
+													&#x25A2;															
+												</div>
+												<div class="slds-truncate slds-align_absolute-center" title="" if:true={dupeApp.coBorrower} data-id={dupeApp.coBorrowerIndex} onclick={handleDupeAppTableCheckbox} style="font-size: 18px;cursor:pointer;height:30px;">
+													&#x2705;													
+												</div>
+											</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>                                            
+						</div>
+					</template>
+
+					<div if:true={dupAppScreen} style="text-align: right">
+						<br/>
+						<lightning-button if:false={buttonSpinner} label="Save" icon-position="right" icon-name="utility:save" onclick={invokeStepElementAction} value="saveDupeApp" data-id="saveDupeApp" type="submit">Save</lightning-button>
+						<template if:true={buttonSpinner}>
+							<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+								&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+							</div>
+						</template>
+					</div>
+					<!-------------------------------------------------------- End of Duplicate Application Screen -------------------------------------------------------->
+
+
+					<!-------------------------------------------------------- Start of Entity Verification Screen -------------------------------------------------------->
+					
+					<!-------------------------------------------------------- Start of Borrower Table on Entity Verification Screen -------------------------------------------------------->
+					<template if:true={isBorrowerEVTDataExist}>
+						<b><h3 class="slds-section-title--divider">Borrower Table</h3> </b>
+						<table class="slds-table slds-table_cell-buffer slds-table_bordered"  style="width:100%">
+							<thead>	
+						<!-- Flag Display -->       
+								<tr style="border-width: 1px;background-color:whitesmoke;"> 
+									<td style="font-weight:bold;text-align:center;">
+										<div data-varname="borowerVerified" style="font-size:22px">
+										</div>   
+									</td>
+									<td style="font-weight:bold;text-align:center;">
+										<div data-varname="borowerVerified" style="font-size:22px">
+										</div>   
+									</td>
+									<td style="font-weight:bold;text-align:center;">
+										<div data-varname="borowerVerified" style="font-size:22px">
+										</div>   
+									</td>
+									<template for:each={bflags} for:item="f">
+										<td key={f} style="font-weight:bold;text-align:center;">
+											<template if:false={f} >
+												<div key={f} data-varname="stateverified" style="font-size:14px;color:red">
+													&#x2717;
+													<!--<img  data-checked=true src={bwredcrossmarkimage}/>-->
+												</div>
+											</template>
+
+											<template if:true={f}>
+												<div key={f} data-varname="stateverified" style="font-size:22px" >
+													<!--  &#x2705; -->
+													<img data-checked=false src={bwgraycheckboxcheckedgreen}/>
+												</div>
+											</template>
+										</td>
+									</template>
+								</tr>
+
+						<!-- Labels Display -->
+								<tr style="border-width: 1px;background-color:whitesmoke;">
+									<td style="white-space:normal;font-weight:bold;text-align:left;">Borrower Name</td>
+									<td style="white-space:normal;font-weight:bold;text-align:left;">Engine Location where the State was Obtained</td>  
+									<td style="white-space:normal;font-weight:bold;text-align:left;">State/Province (SOS/CSC/ESC Link)</td>    
+
+									<template for:each={steps} for:item="s">   
+										<td key={s.displayText} style="white-space:normal;font-weight:bold;text-align:left;">
+											<div key={s.stepTitle} data-varname="stepLabels" data-index={s.stepTitle} style="font-size:14px" >
+												<lightning-formatted-rich-text value={s.displayText}></lightning-formatted-rich-text>
+											</div>
+										</td>
+									</template>
+								</tr>
+							</thead>
+				  
+						<!-- Data Display-->
+							<tbody>                   
+								<template for:each={borrowerSOSList} for:item="b">                   
+									<tr key={b.index} style="text-align:left;border-color:black;border-width:1px;">
+										<template for:each={b.dataList} for:item="d">
+											<template if:true={d.isReadOnly}>
+												<td key={d.key} style="text-align:center;background-color:gray;color:white;font-size:12px;">
+													{d.data}
+												</td>
+											</template> 
+											<template if:true={d.isLink}>
+												<td key={d.key}  style="text-align:left;height:1px;">
+													<a href= {d.data} target="_blank" >{d.linkLabel}</a>
+												</td>
+											</template> 
+											<template if:true={d.isPickList}>
+												<td key={d.key}  style="text-align:left;height:1px;">
+													<lightning-combobox data-varname="borrowerSOSList" data-label={d.key} data-index={b.index}  placeholder="(Select One)" value={d.data} options={d.picklistvalues} onchange={handleChange} style="width:100px;" variant="label-hidden"></lightning-combobox> 
+												</td>
+											</template> 
+										</template>
+									</tr>
+								</template>                         
+							</tbody>   
+						</table>
+						<br/>
+						<br/>
+					</template>
+					<!-------------------------------------------------------- End of Borrower Table on Entity Verification Screen -------------------------------------------------------->
+
+					<!-------------------------------------------------------- Start of Entity Table on Entity Verification Screen -------------------------------------------------------->
+					<template if:true={isEntityEVTDataExist}>
+						<b><h3 class="slds-section-title--divider">Entity Table</h3> </b>
+						<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%">
+							<thead>	
+
+								<!-- Flag Display -->       
+								<tr style="border-width: 1px;background-color:whitesmoke;">                                         
+
+
+									<td key={f} style="font-weight:bold;text-align:center;">
+										<div data-varname="borowerVerified" style="font-size:22px">
+										</div>   
+									</td>
+									<td key={f} style="font-weight:bold;text-align:center;">
+										<div data-varname="borowerVerified" style="font-size:22px">
+										</div>   
+									</td>
+									<td key={f} style="font-weight:bold;text-align:center;">
+										<div data-varname="borowerVerified" style="font-size:22px">
+										</div>   
+									</td>
+									<template for:each={eflags} for:item="f">
+										<td key={f} style="font-weight:bold;text-align:center;">
+											<template if:false={f} >
+												<div key={f} data-varname="stateverified" style="font-size:14px;color:red">
+													&#x2717;
+												</div>
+											</template>
+
+											<template if:true={f}>
+												<div key={f} data-varname="stateverified" style="font-size:14px;color:red">
+													<img data-checked=false src={bwgraycheckboxcheckedgreen}/>
+												</div>
+											</template>
+										</td>
+									</template>
+								</tr> 
+
+
+								<!-- Labels Display -->
+								<tr style="border-width: 1px;background-color:whitesmoke;" >
+									<td style="font-weight:bold;text-align:left;">Entity Name</td>
+									<td style="white-space:normal;font-weight:bold;text-align:left;">Engine Location where the State was Obtained</td>  
+									<td style="white-space:normal;font-weight:bold;text-align:left;">State/Province (SOS/CSC/ESC Link)</td>    
+									<template for:each={steps} for:item="s">   
+										<td key={s.displayText} style="white-space:normal;font-weight:bold;text-align:left;">
+											<div key={s.stepTitle} data-varname="stepLabels" data-index={s.stepTitle} style="font-size:14px" >
+												<lightning-formatted-rich-text value={s.displayText}></lightning-formatted-rich-text>
+											</div>
+										</td>
+									</template>
+								</tr>
+							</thead>
+							<tbody>                         
+								<template for:each={entitySOSList} for:item="e">
+									<tr key={e.index} style="text-align:left;border-color:black;border-width:1px;">
+										<template for:each={e.dataList} for:item="d">
+											<template if:true={d.isReadOnly}>
+												<td key={d.key} style="text-align:center;background-color:gray;color:white;font-size:12px;">
+													{d.data}
+												</td>
+											</template>
+											<template if:true={d.isLink}>
+												<td key={d.key}  style="text-align:left;height:1px;">
+													<a href= {d.data} target="_blank" >{d.linkLabel}</a>
+												</td>
+											</template> 
+											<template if:true={d.isPickList}>
+												<td key={d.key}  style="text-align:left;height:1px;">
+													<lightning-combobox data-varname="entitySOSList" data-label={d.key} data-index={e.index} value={d.data} placeholder="(Select One)" options={d.picklistvalues} onchange={handleChange} style="width:100px;" variant="label-hidden"></lightning-combobox> 
+												</td>
+											</template> 
+										</template>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+						<br/>
+						<br/>
+					</template>
+
+
+					<div if:true={isEntityVerificationScreen} style="text-align:right">
+						<template if:false={buttonSpinner}>
+							<lightning-button label="Save" data-id="saveEntityVerificationTable" icon-position="right" icon-name="utility:save"   type="submit" onclick={saveEntityVerificationTable} name="saveEntityVerificationTable" ></lightning-button>&nbsp;
+						</template>
+						<template if:true={buttonSpinner}>
+							<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+								&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+							</div>
+						</template>
+					</div>
+					<!-------------------------------------------------------- End of Entity Table on Entity Verification Screen -------------------------------------------------------->
+
+					<!-------------------------------------------------------- Start of Formation Documents Screen -------------------------------------------------------->
+					<template if:true={isFormationDocScreen}>
+						<div>
+							<table class="slds-table slds-table_cell-buffer slds-table_bordered" if:true={newScreen} style="width:100%">
+							<!-- Step Completed Row -->
+								<thead> 
+									<tr>
+										<td style="width:25%;text-align:left;color:gray;font-weight:bold;" colspan="1">Step Completed</td>
+										<td if:true={step1Shown} style="width:35%;text-align:center;min-width:250px" colspan="1">
+											<div if:false={step1Verified} class="slds-truncate slds-align_absolute-center" style="font-size: 18px;height:30px;">
+												<img data-checked=false src={bwgraycheckbox}/>
+											</div>
+											<div if:true={step1Verified} class="slds-truncate slds-align_absolute-center" style="font-size: 18px;height:30px;">
+												<img data-checked=false src={bwgraycheckboxcheckedgreen}/>
+											</div>
+										</td>
+										<td if:true={step2Shown} style="width:25%;text-align:center;min-width:250px" colspan="1">
+											<div if:false={step2Verified} class="slds-truncate slds-align_absolute-center" style="font-size: 18px;height:30px;">
+												<img data-checked=false src={bwgraycheckbox}/>
+											</div>
+											<div if:true={step2Verified} class="slds-truncate slds-align_absolute-center" style="font-size: 18px;height:30px;">
+												<img data-checked=false src={bwgraycheckboxcheckedgreen}/>
+											</div>
+										</td>
+										<td if:true={step3Shown} style="width:15%;text-align:center" colspan="1">
+											<div if:false={step3Verified} class="slds-truncate slds-align_absolute-center" style="font-size: 18px;height:30px;">
+												<img data-checked=false src={bwgraycheckbox}/>
+											</div>
+											<div if:true={step3Verified} class="slds-truncate slds-align_absolute-center" style="font-size: 18px;height:30px;">
+												<img data-checked=false src={bwgraycheckboxcheckedgreen}/>
+											</div>
+										</td>
+									</tr>
+								</thead>
+
+							<!-- Step Header Row -->
+								<tbody>
+									<tr style="font-weight: bold">												
+										<td style="width:20%;text-align:left" colspan="1">Borrower Name</td>
+										<template for:each={steps} for:item="s">   
+											<td key={s.displayText} style="white-space:normal;text-align:center;" colspan="1">
+												<div key={s.stepTitle} data-varname="stepLabels" data-index={s.stepTitle} style="white-space:normal">
+													<lightning-formatted-rich-text value={s.displayText}></lightning-formatted-rich-text>
+												</div>
+											</td>										
+										</template>
+									</tr>
+
+
+							<!-- Data Rows -->
+									<template for:each={formationDocTable} for:item="t">
+										<tr key={t.key}>
+											<td style="width:20%;text-align:left" colspan="1">
+												<lightning-formatted-url label={t.relationshipName} target="_blank" value={t.relationshipLink} data-varname="borrowerName"></lightning-formatted-url>
+											</td>
+											<td if:true={step1Shown} colspan="1" style="width:35%;min-width:250px">
+												<lightning-layout horizontal-align="start" vertical-align="center" multiple-rows="true">
+													<lightning-layout-item if:false={t.formationLinkShow} style="width:200px">              
+														</lightning-layout-item>
+													<lightning-layout-item if:true={t.formationOptionsShow} style="width:200px">
+														<lightning-combobox label="Billing Code" placeholder="Select Billing Code" variant="label-hidden" options={billingCode} value={t.formationOption} onchange={handleBillingCode} dropdown-alignment="bottom-left" style="overflow: initial;" data-id={t.index} data-varname={t.formationOption} disabled={t.formationLinkCheck}></lightning-combobox>   
+
+													</lightning-layout-item>
+													<lightning-layout-item if:false={t.formationOptionsShow} style="width:200px">               
+													</lightning-layout-item>                                                      
+													<lightning-layout-item if:true={t.formationLinkShow}>                                                                                                                                                                             
+														<lightning-button class="slds-button slds-button_neutral slds-button_stretch" style="width:200px;cursor:pointer;" value={t.formationLink} label={t.relationshipState} type="submit" onclick={invokeStepElementAction} data-id="formationLinkButton" data-index={t.index} variant="base"></lightning-button>                                                               
+													</lightning-layout-item>
+													<lightning-layout-item if:false={t.formationLinkCheck} style="font-size: 28px;cursor:pointer;">                                                                                                                     
+														&nbsp;<img src={bwgraycheckbox} data-id={t.index} data-value={t.formationOptionsShow} data-index={t.index} data-varname={t.formationLinkCheck} data-label={t.relationshipId} onclick={toggleFormationCheckbox}/>
+													</lightning-layout-item>
+													<lightning-layout-item if:true={t.formationLinkCheck} style="font-size: 18px;cursor:pointer;">                                                          
+														&nbsp;<img src={bwgraycheckboxcheckedgreen} data-value={t.formationOptionsShow} data-index={t.index} data-varname={t.formationLinkCheck} data-label={t.relationshipId} onclick={toggleFormationCheckbox}/>
+													</lightning-layout-item>
+												</lightning-layout>
+											</td>
+											<td if:true={step2Shown} colspan="1">
+												<lightning-layout class="slds-align_absolute-center">
+													<lightning-layout-item style="min-width: 200px">
+														<lightning-input value={t.formationDocLegalName} data-index={t.index} data-label={t.chartData} onchange={checkLegalName} variant="label-hidden"></lightning-input>                                                            
+
+													</lightning-layout-item>
+													<lightning-layout-item if:false={t.formationDocMatch} style="font-size: 18px;">                                                                                                                     
+														<div style="font-size:18px;color:red">
+															&nbsp;&#x2717;
+														</div>
+													</lightning-layout-item>
+													<lightning-layout-item if:true={t.formationDocMatch} style="font-size: 18px;">                                                                                                      
+														&nbsp;<img  data-checked=true src={bwgreencheckmarknocbimage}/>
+													</lightning-layout-item>
+												</lightning-layout>
+											</td>
+											<td if:true={step3Shown} colspan="1">
+												<lightning-combobox options={optionsYN} value={t.uploadedDocVault} placeholder={defaultOption} dropdown-alignment="bottom-left" data-index={t.index} data-label={t.chartData} onchange={toggleFormOption}></lightning-combobox>
+												<br/>
+											</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>									
+						</div>
+						
+						<!-- Formation Document Buttons -->
+						<template if:false={buttonSpinner}>
+							<div style="text-align: right">
+								<br/>
+								<lightning-button if:true={isChanged} value="Save Formation Doc Chart Rows" icon-name="utility:save" icon-position="right" type="submit" label="Save" onclick={saveFormDocChartRows}></lightning-button>
+								<lightning-button if:true={isChanged} value="Cancel Update Of Formation Doc Chart Rows" icon-name="utility:close" icon-position="right" type="reset" label="Cancel" onclick={handleCancel}></lightning-button>
+							</div>
+						</template>
+						<template if:true={buttonSpinner}>
+							<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+								&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+							</div>
+						</template>
+					</template>
+					<!-------------------------------------------------------- End of Formation Documents Screen -------------------------------------------------------->
+
+					<!-------------------------------------------------------- Start of Data Verification Screen -------------------------------------------------------->
+					<table if:true={isDataVerificationScreen} class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%">
+						<thead>
+							<tr style="border-width: 1px;background-color:whitesmoke;" >  
+								<td style="font-weight:bold;text-align:center;width:50px" >&nbsp;</td>
+								<td style="font-weight:bold;text-align:left;">
+									Borrower/<br/>Entity Owner Name
+								</td>
+								<td style="font-weight:bold;text-align:left;">
+									Legal Entity<br/>Structure
+								</td>
+								<td style="font-weight:bold;text-align:left;">
+									Existing DBA Names
+								</td>
+								<td style="font-weight:bold;text-align:left;">
+									Create a new DBA Name<br/>(for multiple names,<br/>separate by semicolon:<br/>DBA One; DBA Two; DBA Three)
+								</td>
+								<td style="font-weight:bold;text-align:left;">
+									Verify or Correct<br/>the Tax ID/EIN<br/>for each entity<br/>(must be 9 digits) 
+								</td>
+								<td style="font-weight:bold;text-align:left;">
+									Year Business<br/>Started<br/>(MM/YYYY or YYYY)
+								</td>                                          
+								<td style="font-weight:bold;text-align:left;">
+									Number of Years<br/>Under Current<br/>Ownership
+								</td>
+								<td style="font-weight:bold;text-align:center;">
+									Verified<br/>By User
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<template for:each={borrowerDbaList} for:item="borrower">
+								<tr key={borrower.relationshipId} style="text-align:left;border-color:black;border-width:1px;" >  
+									<td style="text-align:center;background-color:gray;color:white;font-size:12px;">{borrower.rowType}</td>
+									<td style="text-align:left;height:1px;" >
+										<lightning-formatted-url value={borrower.relURL} tooltip="Go to relationship" label={borrower.relName}  target="_blank"></lightning-formatted-url>
+									</td>
+									<td style="text-align:left;height:1px;" >
+										{borrower.relLEStructure}
+									</td>
+									<td style="text-align:left;height:1px;font-size:12px;">
+										<template for:each={borrower.dbaNames} for:item="dba">
+											<div key={dba}>{dba}</div>
+										</template>
+									</td>
+									<td style="text-align:left" >
+										<lightning-input name="newDbaNames" value={borrower.newDbaNames} type="text" data-index={borrower.index}  if:false={borrower.isEntityGuarantor} variant="label-hidden" ></lightning-input>
+									</td>
+									<td style="text-align:left" >
+										<div title={borrower.relTINWarn} >
+											<lightning-input name="relTIN" value={borrower.relTIN} style="width:110px;text-align:center;" type="text"  data-index={borrower.index} label={borrower.relTINWarn} variant="label-hidden"  ></lightning-input>
+										</div>
+									</td>
+									<td style="text-align:left;width:90px;" >
+										<div title={borrower.relYearStartWarn} if:false={borrower.isEntityGuarantor} >
+											<lightning-input name="relYearStart"  value={borrower.relYearStart} style="width:90px;text-align:center;"  type="text" data-index={borrower.index} label={borrower.relYearStartWarn} variant="label-hidden"></lightning-input>
+										</div>
+									</td>
+									<td style="text-align:left;width:60px;" >
+										<div title={borrower.relYearOwnWarn} if:false={borrower.isEntityGuarantor} >
+											<lightning-input name="relYearOwn" value={borrower.relYearOwn} data-index={borrower.index}  style="width:60px;text-align:center;" type="text" label={borrower.relYearOwnWarn} variant="label-hidden"  ></lightning-input>
+										</div>
+									</td>
+									<td style="text-align:center" >
+										<lightning-input if:true={FALSE} name="verified" type="checkbox-button" data-id={borrower.verified} checked={borrower.verified} data-index={borrower.index} variant="label-hidden"  ></lightning-input>
+										<template if:false={borrower.verified}>
+											<img data-varname="borrowerDbaList" data-index={borrower.index} data-checked=true src={bwgraycheckbox} onclick={toggleBusinessVerificationTableCheckbox}/>
+										</template>
+										<template if:true={borrower.verified}>
+											<img data-varname="borrowerDbaList" data-index={borrower.index} data-checked=false src={bwgraycheckboxcheckedgreen} onclick={toggleBusinessVerificationTableCheckbox}/>
+										</template>
+									</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>			
+
+					<div if:true={isDataVerificationScreen} style="text-align:right">
+						<br/><!--move br into a tag set-->
+						<br/>
+						<template if:false={buttonSpinner}>
+							<lightning-button label="Save" data-id="saveBusinessVerificationTable" icon-position="right" icon-name="utility:save"   type="submit" onclick={saveBusinessVerification} name="saveBusinessVerificationButton" ></lightning-button>&nbsp;
+						</template>
+						<template if:true={buttonSpinner}>
+							<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+								&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+							</div>
+						</template>
+					</div>
+
+					<!-------------------------------------------------------- End of Data Verification Screen -------------------------------------------------------->
+
+					<!-------------------------------------------------------- Start of CBR Screen -------------------------------------------------------->
+					<template  if:true={isCBRScreen}>
+						<br/>
+						<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%;"> 
+							<thead>
+							<tr style="border-width: 1px;background-color:whitesmoke;font-size:12px;" >  
+								<td style="font-weight:bold;text-align:left;">Relationship Name</td>
+								<td style="font-weight:bold;text-align:center;">Change Name</td>                                        
+								<td style="font-weight:bold;text-align:center;">SSN/SIN</td>
+								<td style="font-weight:bold;text-align:center;">DOB</td>
+								<td style="font-weight:bold;text-align:center;">CBR Score</td>
+								<td style="font-weight:bold;text-align:center;">CBR Date</td>
+								<td style="font-weight:bold;text-align:center;">CBR Special Messages</td>
+								<td style="font-weight:bold;text-align:center;">Run CBR</td>
+							</tr>
+							</thead>
+							<tbody>
+							<template for:each={cbrList} for:item="borrower">
+								<tr key={borrower.relationshipId} style="text-align:left;border-color:black;border-width:1px;font-size:12px;" >  
+									<td style="text-align:left;height:1px;" >
+										<lightning-formatted-url value={borrower.relURL} tooltip="Go to relationship" label={borrower.relName} target="_blank"></lightning-formatted-url>
+									</td>
+									<td style="text-align:left;" >  
+										<lightning-layout>
+											<lightning-layout-item>
+												First:<lightning-input name="firstName" value={borrower.firstName} type="text" data-index={borrower.index} style="width:120px;" variant="label-hidden" ></lightning-input>
+											</lightning-layout-item>
+											<lightning-layout-item>
+												Middle:<lightning-input name="middleName" value={borrower.middleName} type="text" data-index={borrower.index} style="width:120px;" variant="label-hidden" ></lightning-input>
+											</lightning-layout-item>
+											<lightning-layout-item>
+												Last:<lightning-input name="lastName" value={borrower.lastName} type="text" data-index={borrower.index} style="width:120px;" variant="label-hidden" ></lightning-input>
+											</lightning-layout-item>
+											<lightning-layout-item>
+												Suffix:<lightning-combobox name="linesuffix" data-index={borrower.index} label="Change Suffix" placeholder=" " variant="label-hidden" value={borrower.suffix} options={suffixOptions} onchange={handleSuffixChange}  style="width:60px;" ></lightning-combobox>
+											</lightning-layout-item>
+											<br/>
+										</lightning-layout>
+									</td>
+									<td style="text-align:center" >
+										<lightning-input name="cbrssn" value={borrower.ssn} type="text" data-index={borrower.index} style="width:120px;" label="Must be 9 digits" variant="label-hidden" ></lightning-input>
+									</td>
+									<td style="text-align:center" >
+										<lightning-input name="cbrdob" value={borrower.dob} type="date" data-index={borrower.index} style="width:120px" date-style="short" variant="label-hidden" ></lightning-input>
+									</td>
+									<td style="text-align:center" >
+										<div>{borrower.cbrScore}</div>
+									</td>
+									<td style="text-align:center" >
+										<div if:true={borrower.cbrDate}>
+											<lightning-formatted-date-time value={borrower.cbrDate} year="numeric" month="numeric" day="numeric" time-zone="UTC"  ></lightning-formatted-date-time>
+										</div>
+									</td>
+									<td style="text-align:left;width:300px;white-space:normal;font-size:10px;" >
+										<!--<template for:each={borrower.cbrSpMessageList} for:item="r">
+											<div  key={r}>{r}<br/><br/></div>
+										</template> -->
+										<ol class="slds-list_ordered slds-has-dividers_around-space slds-list_vertical-space-medium" if:true={borrower.showSpMessages} >
+											<template for:each={borrower.cbrSpMessageList} for:item="r" >
+												<li key={r} class="slds-item" >{r}</li>
+											</template>
+										</ol>
+									</td>
+									<td style="text-align:center" >
+										<template if:true={borrower.cbrRequired}>
+											<div if:false={borrower.cbrPending}>
+												<template if:false={borrower.cbrClicked}>
+													<lightning-button label="Run CBR" data-id="runCBRButton" type="submit" onclick={runCBRButton} name="runCBRButton" data-index={borrower.index} ></lightning-button>
+												</template>  
+												<template if:true={borrower.cbrClicked}>
+													<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px">
+														&nbsp;&nbsp;<span style="color:red;font-size:10px;font-weight:bold;">Working ...&nbsp;</span>
+													</div>
+												</template>
+											</div>
+											<div if:true={borrower.cbrPending} title="New CBR pull in process..." >
+												(CBR Pending...)
+											</div>
+											<!--   <div data-checked=false  style="font-size:14px;height:26px;cursor:no-drop;"  class="slds-truncate slds-align_absolute-center" >
+												&#x274C; Run CBR
+											</div> -->
+										</template>
+										<template if:false={borrower.cbrRequired}>
+											<div data-checked=true  style="font-size:14px;height:26px;cursor:no-drop"  class="slds-truncate slds-align_absolute-center" title="(New CBR pull not required)" >
+												<img data-checked=true src={bwgraycheckboxcheckedgreen} />
+											</div><span style="font-size:10px">(Not Required)</span>
+										</template>
+									</td>
+								</tr>
+							</template>
+							</tbody>
+						</table>
+					</template>
+					
+
+					<div if:true={isCBRScreen} style="text-align:right">
+						<br/>
+						<br/>
+						<template if:false={buttonSpinner}>
+							<lightning-button label="Save" data-id="saveCBRTable" icon-position="right" icon-name="utility:save"   type="submit" onclick={saveCBRTableButton} name="saveCBRTableButton" ></lightning-button>&nbsp;
+						</template>
+						<template if:true={buttonSpinner}>
+							<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+								&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+							</div>
+						</template>
+					</div>
+					<!-------------------------------------------------------- End of CBR Screen -------------------------------------------------------->
+
+					<!-------------------------------------------------------- Start of Move to UW, Doc Creation, Account Setup stage screens -------------------------------------------------------->
+						<div if:true={displayMoveToNextStageTable} style="width:100%"> 
+						<br/><br/>
+						<table style="width:50%;text-align:center;" class="slds-box">
+							<tr style="text-align:center">
+								<td colspan="2" style="text-align:center">
+									<template if:true={activeStageIsRequest}>
+										<template if:true={routeToCreditBoolean}>
+											<b>This underwriting will be routed to the Credit Team Queue for review.</b><br/>
+											(Reason: <span style="color:blue"><lightning-formatted-text value={routeToCreditReason}></lightning-formatted-text></span>)<br/>
+										</template>
+										<template if:false={routeToCreditBoolean}>
+											This underwriting may be eligible for Auto Decision and will stay with ISR or CRA.<br/>
+										</template>
+									</template>
+									Click Yes if you are ready to move this Underwriting request to the next stage.<br/><br/>
+								</td>
+							</tr>
+							<tr>								
+								<td style="width:50%;text-align:center">
+									&nbsp;
+								</td>
+								<td style="width:50%;text-align:center" if:false={buttonSpinner}>
+									<lightning-formatted-text value="Next Follow Up Date"></lightning-formatted-text>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:25%;text-align:center" if:false={buttonSpinner}>
+									<lightning-formatted-text value="Ready?"></lightning-formatted-text>&nbsp;<lightning-button label="Yes" variant="neutral" data-id="docVaultYes" onclick={moveUWToNextStage}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">OR</span></b>
+								</td>
+								<td style="width:50%" if:false={buttonSpinner}>
+									<lightning-input type="date" onchange={handleChange} variant="label-hidden" data-id="nextFollowUpDate" value={defaultNextFollowUpDate}></lightning-input>																									
+								</td>
+							</tr>
+							<tr>
+								<td style="width:100%" if:true={buttonSpinner} colspan="2">
+									<br/>
+									<div style="text-align:center">
+										<img src = "/img/loading.gif" width="20px" height="20px">
+										&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Updating.  Please wait ...&nbsp;</span>
+									</div>
+								</td>
+							</tr>
+						</table>
+						</div>
+						<div if:false={displayMoveToNextStageTable}>
+							<div if:true={isMoveToUWStageScreen}>{requestAlreadyInNextStageMessage}</div>
+							<div if:true={isMoveToDocCreationStageScreen}>{requestAlreadyInNextStageMessage}</div>
+							<div if:true={isMoveToAcctSetupStageScreen}>{requestAlreadyInNextStageMessage}</div>
+						</div>
+					<!-------------------------------------------------------- End of Move to UW, Doc Creation, Account Setup stage screens -------------------------------------------------------->
+
+					<!-- start of address verification screen-->
+					<template if:true={isAddressVerificationScreen}>
+						<br/>
+						<!--  <b><h3 class="slds-section-title--divider">Address Table</h3> </b> -->
+						  <table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%;" >
+							   
+							<thead>	
+							   
+							  <!-- flag display -->       
+							  <tr style="border-width: 1px;background-color:whitesmoke;">  
+								<template for:each={borrowerHeader} for:item="h">
+								  <td key={h} style="white-space:normal;font-weight:bold;text-align:left;">
+									  <div key={h} data-varname="row" style="font-size:14px" >
+										{h}
+									  </div>
+								  </td>
+								</template>
+							  </tr>
+							</thead>
+							<tbody>
+								<template for:each={accountsList} for:item="a">
+									<tr key={a.key} style="text-align:left;border-color:black;border-width:1px;">
+										<template for:each={a.dataList} for:item="d">
+											<template if:true={d.isTextInput}>
+											  <td key={d.key} style="text-align:left;height:1px;width:120px;font-size:12px;">
+												  <lightning-input value={d.data} type="text" data-index={a.index} data-varname={a.recordId} data-label={d.key} data-a ="accountsList" variant="label-hidden" onblur={handleChange}></lightning-input>
+												</td>
+											</template> 
+											<template if:true={d.isTextArea}>
+												<td key={d.key} style="text-align:left;height:1px;width:200px;font-size:12px;" >
+													<lightning-textarea
+													  name="textArea"
+													  value={d.data}
+													  data-index={a.index} data-varname={a.recordId} data-label={d.key} data-a ="accountsList" variant="label-hidden" onblur={handleChange}
+													  max-length="200">
+												   </lightning-textarea>
+												  
+												  </td>
+											  </template> 
+											<template if:true={d.isLink}>
+												<!-- santosh -added fix addressverification bug # 7-->
+												<td key={d.key}  style="text-align:left;background-color:gray;color:white;font-size:12px;width:100px;white-space:normal;padding-left: 10px;">
+													<a href= {d.linkURL} target="_blank" style="color:white">{d.linkLabel}</a>
+												  </td>
+											</template>
+		
+											<template if:true={d.isReadOnly} >
+											  <td key={d.key}  style="text-align:center;font-size:12px;width:50px;white-space:normal;padding-left: 10px;">
+													{d.data}
+												</td>
+											 
+											</template>
+											<template if:true={d.isBoolean}>
+											  <td key={d.key}  style="text-align:center;width:50px;">
+												<div style="font-size:24px;height:26px;cursor:no-drop;"  class="slds-truncate slds-align_absolute-center">
+												 <template if:false={d.booleanData} >
+													<div  style="font-size:24px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center">
+													  <img data-index={a.index}  src={bwgraycheckbox}  onclick={toggleCheckBoxAddressVerification}/>
+													</div>
+		
+												  </template>
+												  <template if:true={d.booleanData}>
+													<div style="font-size:14px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center" >
+													  <img data-index={a.index}  src={bwgraycheckboxcheckedgreen}  onclick={toggleCheckBoxAddressVerification}/>
+													</div>
+												  
+												  </template>
+												</div>
+												  <template if:true={a.isNew}>
+													  <!--<tr> -->
+														<td style="width:50px;"><lightning-button label="Cancel" variant="destructive" class="slds-m-left_x-small" data-id="newAddress" data-index={a.index} icon-position="right" icon-name="utility:cancel"   type="submit" onclick={removeLocation} name="cancel" style="width:50px;"></lightning-button>
+														</td>
+														<!--</tr> -->
+													</template>
+												
+												</td>
+											</template>
+											<template if:true={d.isPickList}>
+												<td key={d.key}  style="text-align:left;height:1px;font-size:12px;width:150px;">
+													<lightning-combobox
+													  data-a="accountsList" data-label={d.key} data-index={a.index} 
+													  data-varname={a.recordId}
+													  placeholder="Select"
+													  value={d.data}
+													  options={d.picklistvalues}
+													  onchange={handleChange} 
+													  variant="label-hidden"
+													  >
+												</lightning-combobox> 
+												  </td>
+											  </template> 
+											  <template if:true={d.isLookup} >
+												<td key={d.key}  style="width:300px;font-size:12px;text-align:left;" align="left">
+												  <c-custom-lookup searchfield="Name" object-name="account" onselectedrec={handleselect} data-index={a.index} data-varname={a.recordId} data-label={d.key} data-a ="accountsList" placeholder="Type Borrower Name" recordids-to-search={validAccountsLookup}></c-custom-lookup>
+												</td>
+											</template>  
+									 </template> 
+									</tr>
+								  </template> 
+							</tbody>
+						  </table>
+			   
+							<br/><br/>
+							<div style="text-align:center"> 
+							  <template if:false={buttonSpinnerNewAddress}>
+								<lightning-button label="Add New Location" data-id="newAddress" icon-position="right" icon-name="utility:save"   type="submit" onclick={createNewLocation} name="newAddress" ></lightning-button>&nbsp;
+							  </template>
+							  <template if:true={buttonSpinnerNewAddress}>
+								<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+								  &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+								</div>
+							  </template>
+							</div>  
+			
+							<div style="text-align:right">
+							  <template if:false={buttonSpinnerSaveAddress}>
+								<lightning-button label="Save" data-id="saveAddress" icon-position="right" icon-name="utility:save"   type="submit" onclick={saveAddress} name="saveAddress" ></lightning-button>&nbsp;
+							  </template>
+							  <template if:true={buttonSpinnerSaveAddress}>
+								<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+								  &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+								</div>
+							  </template>
+							</div>  
+							<br/></br>
+						 </template>
+					   <!-- end of address verification screen-->
+					   
+					   <!-------------------------------------------------------- Start of Doc Acceptance Screen -------------------------------------------------------->
+						<template if:true={isDocAcceptanceScreen}>
+							<template if:false={buttonSpinner}>
+								<div style="text-align: right">
+									<lightning-button if:true={isChanged} label="Save" data-id="saveDocAcceptance" icon-position="right" icon-name="utility:save" type="submit" onclick={saveDocAcceptance} name="saveDocAcceptance" ></lightning-button>&nbsp;
+									<lightning-button if:true={isChanged} icon-name="utility:close" icon-position="right" type="reset" label="Cancel" onclick={handleCancel}></lightning-button>
+								</div>
+							</template>
+							<template if:true={buttonSpinner}>
+								<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
+									&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Saving data.  Please wait ...&nbsp;</span>
+								</div>
+							</template>
+						</template>
+						<!-------------------------------------------------------- End of Doc Acceptance Screen -------------------------------------------------------->
+						<!-------------- start of underwriting screen ------------------------>
+						
+						<template if:true={InUWScreen}>
+                            <div  if:true={areAllUWStageScreensCompleted}>
+                                <lightning-formatted-text value="Ready for Document Creation?"></lightning-formatted-text><lightning-button label="Yes" variant="neutral" data-id="underwritingYes" onclick={moveUWToNextStage}></lightning-button>
+                            </div>
+						</template>
+						<!------ end of underwriting screen  -------------------------------------->
+						<!-------------------------------------------------------- Start of Security Search & Filing Screen -------------------------------------------------------->
+						<template if:true={isSecurityFilingScreen}>
+							<br/>
+							<br/>
+							<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:100%">
+								<tr>
+									<td>Borrower / Guarantor</td>
+									<td style="text-align:center;">Billing Code</td>
+									<td style="text-align:center;">Certified</td>
+									<td style="text-align:center;">Special Instructions</td>
+									<td style="text-align:center;">Search</td>
+									<td style="text-align:center;">Filing Type</td>
+									<td style="text-align:center;">Filing</td>
+								</tr>
+								<template for:each={filing} for:item="f">
+									<tr key={f.key}>
+										<td>
+											<lightning-formatted-url label={f.relationshipname} value={f.relationshipId} ></lightning-formatted-url>
+										</td>
+										<td style="text-align:left;">
+											<lightning-combobox label="Billing Code" placeholder="Select Billing Code" variant="label-hidden" options={billingCode} value={f.searchBillingCode} dropdown-alignment="bottom-left" style="overflow: initial;" data-id={f.key} data-index={f.index} data-varname="billingCode" disabled={f.existingSearch} onchange={handleChange}></lightning-combobox>	
+										</td>									
+										<td style="text-align:center;">
+											<lightning-input type="checkbox" checked={f.certified} data-id={f.key} data-index={f.index} data-varname="certified" data-checked={f.certified} onchange={handleChange} disabled={f.existingSearch}></lightning-input>
+										</td>
+										<td style="text-align:center;">
+											<lightning-input value={f.specialInstructions} variant="label-hidden" data-id={f.key} data-index={f.index} data-varname="instructions" onchange={handleChange} disabled={f.existingSearch}></lightning-input>
+										</td>
+										<td style="text-align:center;">
+											<lightning-button label={f.searchLabel} data-id={f} data-index={f.index} data-varname={f.searchId} onclick={securitySearch} disabled={isChanged}></lightning-button>
+										</td>
+										<td style="text-align:left;">
+											<lightning-combobox label="Filing Type" placeholder="Select Filing Type" variant="label-hidden" options={filingType} value={f.filingType} dropdown-alignment="bottom-left" style="overflow: initial;" data-id={f.key} data-index={f.index} data-varname="filingType" disabled={f.existingFiling} onchange={handleChange}></lightning-combobox>	
+										</td>
+										<td style="text-align:center;">
+											<lightning-button label={f.filingLabel} data-id={f} data-index={f.index} data-varname={f.filingId} onclick={securityFiling} disabled={isChanged}></lightning-button>
+										</td>
+									</tr>
+								</template>	
+							</table>
+						</template>
+						<!-------------------------------------------------------- End of Security Search & Filing Screen ---------------------------------------------------------->					 
+						<!---------------------------------------------------------Start of Reg Check Screen -------------------------------------------------------->
+							<template if:true={regCheckCasesExist}>
+								<br/>
+								<b><h3 class="slds-section-title--divider" style="width:30%;">Regulatory Check Cases</h3> </b> 
+								<table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:30%;">
+									<thead>	
+									
+									<!-- flag display -->       
+									<tr style="border-width: 1px;background-color:whitesmoke;width: 30%;">  
+										
+										<td style="white-space:normal;font-weight:bold;text-align:left;padding-left: 10px;font-size:12px;">
+											Case Number
+										</td>
+										<td style="white-space:normal;font-weight:bold;text-align:left;padding-left: 10px;font-size:12px;">
+											Record Type
+										</td>
+										<td style="white-space:normal;font-weight:bold;text-align:left;padding-left: 10px;font-size:12px;">
+											Status
+										</td>
+									</tr>
+									</thead>
+									<tbody>
+										<template for:each={allRegCheckCasesList} for:item="c">
+											<tr key={c.id} style="text-align:left;border-color:black;border-width:1px;">
+														<!-- santosh -added fix addressverification bug # 7-->
+														<td  style="text-align:left;background-color:gray;color:white;font-size:12px;white-space:normal;padding-left: 10px;">
+															<a onclick={openLink} data-caseid={c.Id} target="_blank" style="color:white">{c.CaseNumber}</a>
+														</td>
+
+													<td  style="text-align:left;font-size:12px;white-space:normal;padding-left: 10px;">
+															{c.RecordType.Name}
+														</td> 
+													<td style="text-align:left;font-size:12px;white-space:normal;padding-left: 10px;"> 
+															{c.Status}
+													</td>
+						
+											</tr>
+										</template> 
+									</tbody>
+								</table>
+								<br/>
+								<br/>
+								<div  if:true={areAllDocStageScreensCompleted}>
+									<lightning-formatted-text value="Ready for Account Setup?"></lightning-formatted-text><lightning-button label="Yes" variant="neutral" data-id="regCheckYes" onclick={moveUWToNextStage}></lightning-button>
+								</div>
+							</template>
+		
+			   <!-- end of regcheck cases table-->
+			   
+			    <!---------------------------------------------------------Start of pre wms setup table -------------------------------------------------------->
+				<template if:true={wmsChangeCasesExist}>
+                    <br/>
+                    <b><h3 class="slds-section-title--divider" style="width:30%;">Regulatory Check Cases</h3> </b> 
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered" style="width:30%;">
+                        <thead>   
+                        
+                        <!-- flag display -->       
+                        <tr style="border-width: 1px;background-color:whitesmoke;width: 30%;">  
+                            
+                            <td style="white-space:normal;font-weight:bold;text-align:left;padding-left: 10px;font-size:12px;">
+                                Case Number
+                            </td>
+                            <td style="white-space:normal;font-weight:bold;text-align:left;padding-left: 10px;font-size:12px;">
+                                Record Type
+                            </td>
+                            <td style="white-space:normal;font-weight:bold;text-align:left;padding-left: 10px;font-size:12px;">
+                                Status
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={wmsChangeCases} for:item="c">
+                                <tr key={c.id} style="text-align:left;border-color:black;border-width:1px;">
+                                            <!-- santosh -added fix addressverification bug # 7-->
+                                            <td  style="text-align:left;background-color:gray;color:white;font-size:12px;white-space:normal;padding-left: 10px;">
+                                                <a onclick={openLink} data-caseid={c.Id} target="_blank" style="color:white">{c.CaseNumber}</a>
+                                            </td>
+ 
+                                        <td  style="text-align:left;font-size:12px;white-space:normal;padding-left: 10px;">
+                                                {c.RecordType.Name}
+                                            </td> 
+                                        <td style="text-align:left;font-size:12px;white-space:normal;padding-left: 10px;"> 
+                                                {c.Status}
+                                        </td>
+            
+                                </tr>
+                            </template> 
+                        </tbody>
+                    </table>
+                    <br/>
+                    <br/>
+                    
+                </template>
+ 
+                <!-- end of pre wms setup  table-->
+
+				</div>
+			</template>
+			<!-------------------------------------------------------- End of Steps Screens -------------------------------------------------------->
+
+		</div>
+		<!-------------------------------------------------------- End of Boarding Wizard Banner -------------------------------------------------------->
+
+		<!-------------------------------------------------------- Start of Index Section -------------------------------------------------------->
+		<!-- <br/> leave extra spacing gap to make sure that the LEX utility bar does not partially cover the bottom of the screen buttons -->  
+
+		&nbsp;&nbsp;
+		<div style="vertical-align:top;background-color:#FAFAF9;" class="custom-box slds-box slds-p-around_medium">
+			<table style="width:290px;vertical-align:top;background-color:#FAFAF9;">
+				<tr>
+					<td style="vertical-align:top;background-color:#FAFAF9;">
+						<template if:true={displayScreensList}>
+							<div>&nbsp;</div>
+							<div style="background-color:#FAFAF9;vertical-align:top">
+								<template if:true={displayScreensList}>
+									<div style="text-align:center">
+										<button onclick={openUWModal} class="slds-button slds-button_neutral" style="width:240px;">Update Underwriting Status</button>
+										<div>&nbsp;</div>
+									</div>
+								</template>
+								<template if:false={isWelcomeScreen} > 
+									<div class="slds-border_bottom" style="text-align:center">
+											<button data-id={screenName} class="slds-button slds-button_neutral" onclick={refreshScreenData} style="width:240px;">
+												<lightning-icon icon-name="utility:refresh" size="x-small" variant="success" ></lightning-icon>&nbsp;
+												Refresh Screen Data
+											</button>	
+											<div>&nbsp;</div>
+
+										<template if:true={uwAuditPermission} >
+											<button data-id={screenName} class="slds-button slds-button_neutral" onclick={openWindowNewUnderwritingAudit} style="width:240px;" >
+												<lightning-icon icon-name="utility:priority" size="x-small" variant="error" ></lightning-icon>&nbsp;
+												Report an Issue</button>
+											<div>&nbsp;</div>
+										</template>
+									</div>
+								</template>
+
+								<lightning-accordion active-section-name={activeStageSectionName}>
+									<template if:false={isWelcomeScreen}>
+										<div style="text-align:center;font-size:13px;"><lightning-button variant="base" name="Welcome" label="Take me to the Welcome Screen!" title=""  class="slds-m-left_x-small" onclick={openScreen}></lightning-button></div>
+									</template>
+									<lightning-accordion-section  name="Request" label="Request Stage">
+										<template for:each={requestStageScreensList} for:item="screen">                            
+											<div key={screen.name} style="overflow:auto">
+												<template if:false={screen.isCompleted}>
+													<template if:true={screen.isActive}>
+														<div key={screen.name} style="text-align:left;">&#x274C;&nbsp;
+															<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+															<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+														</div>
+													</template>
+													<template if:false={screen.isActive}>
+														<div key={screen.name} style="text-align:left;">&#x274C;&nbsp;
+															<button if:true={screen.displayScreenAsLink}  class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+															<button if:false={screen.displayScreenAsLink}  class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+														</div>
+													</template>  
+												</template>
+												<template if:true={screen.isCompleted}>
+													<template if:true={screen.isActive}>
+														<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+															<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+															<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+														</div>
+													</template>
+													<template if:false={screen.isActive}>
+														<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+															<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+															<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+														</div>
+													</template>
+												</template>
+											</div>
+										</template>  
+									</lightning-accordion-section>
+									<lightning-accordion-section  name="Underwriting" label="Underwriting Stage">
+										<template for:each={underwritingStageScreensList} for:item="screen">
+											<template if:false={screen.isCompleted}>
+												<template if:true={screen.isActive}>
+													<div key={screen.name} style="text-align:left;">&#x274C;
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+												<template if:false={screen.isActive}>
+													<div key={screen.name} style="text-align:left;">&#x274C;
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>  
+											</template>
+											<template if:true={screen.isCompleted}>
+												<template if:true={screen.isActive}>
+													<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+														<button if:true={screen.displayScreenAsLink}  class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink}  class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+												<template if:false={screen.isActive}>
+													<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+														<button if:true={screen.displayScreenAsLink}  class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink}  class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+											</template>
+										</template>
+									</lightning-accordion-section>
+									<lightning-accordion-section  name="Document Creation" label="Document Creation Stage">
+										<template for:each={docCreationStageScreensList} for:item="screen">                            
+											<template if:false={screen.isCompleted}>
+												<template if:true={screen.isActive}>
+													<div key={screen.name} style="text-align:left;">&#x274C;
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+												<template if:false={screen.isActive}>
+													<div key={screen.name} style="text-align:left;">&#x274C;
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>  
+											</template>
+											<template if:true={screen.isCompleted}>
+												<template if:true={screen.isActive}>
+													<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+												<template if:false={screen.isActive}>
+													<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>                        
+											</template>
+										</template>
+									</lightning-accordion-section>
+									<lightning-accordion-section  name="Account Setup" label="Account Setup Stage">
+										<template for:each={accountSetupStageScreensList} for:item="screen">                            
+											<template if:false={screen.isCompleted}>
+												<template if:true={screen.isActive}>
+													<div key={screen.name} style="text-align:left;">&#x274C;
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+												<template if:false={screen.isActive}>
+													<div key={screen.name} style="text-align:left;">&#x274C;
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+											</template>
+											<template if:true={screen.isCompleted}>
+												<template if:true={screen.isActive}>
+													<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:tomato;font-weight:bold;font-size:14px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:14px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>
+												<template if:false={screen.isActive}>
+													<div key={screen.name} style="text-align:left;"><img src={bwgreencheckmarkimage}/>
+														<button if:true={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:blue;font-weight:bold;font-size:13px;" name={screen.name} type="submit" onclick={openScreen}>{screen.name}</button>
+														<button if:false={screen.displayScreenAsLink} class="slds-button slds-m-left_x-small" style="color:black;font-size:13px;" name={screen.name} type="submit" onclick={openScreen} disabled>{screen.name}</button>
+													</div>
+												</template>  
+											</template>
+										</template>
+									</lightning-accordion-section>
+								</lightning-accordion>
+							</div>
+						</template> 
+					</td>
+				</tr>
+			</table>
+		</div>
+		<br/><br/><br/> <!-- do not delete these page breaks, space for utility bar  -->
+		<!-------------------------------------------------------- End of Index Section -------------------------------------------------------->
+	</lightning-layout>
+	<br/><br/><br/> <!-- do not delete these page breaks, space for utility bar  -->
+	<!-------------------------------------------------------- End of Main Section -------------------------------------------------------->
+	
+	<!-------------------------------------------------------- Start of Update Status Modal Screen -------------------------------------------------------->
+	<div class="slds-theme_default">
+			<template if:true={openModal}>
+				<div>
+					<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+						<div class="slds-modal__container">
+							<header class="slds-modal__header">
+								<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+									<lightning-icon icon-name="utility:close" size="medium">
+									</lightning-icon>
+									<span class="slds-assistive-text">Close</span>
+								</button>
+								<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Update Underwriting Status</h2>
+							</header>
+	
+							<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="height:325px;">  
+								<p><b>Underwriting stage:&nbsp;{selectedUWStage}</b></p>
+								<br/>
+									<lightning-combobox value={selectedUWStageStatus} options={uwStageStatuses} dropdown-alignment="left" onchange={captureSelectedUWStageStatus} label="Underwriting Status:" ></lightning-combobox>
+	
+								<template if:true={modalButtonSpinner}>
+									<div style="text-align:right"><br/><br/><br/><br/><br/><br/><br/><br/><img src = "/img/loading.gif" width="20px" height="20px" >&nbsp;<span style="color:red;font-size:15px;font-weight:normal;">Updating underwriting stage and status.  Please wait ...&nbsp;</span></div>
+								</template>
+							</div>
+	
+	
+							<footer class="slds-modal__footer">
+								<template if:false={buttonSpinner}>  
+									<lightning-button label="Update Status" variant="brand" data-stage={uwCurrentStage} onclick={updateUWStatusFromModal}></lightning-button>
+									&nbsp;<lightning-button label="Cancel" variant="neutral" onclick={closeModal}></lightning-button>
+								</template>
+							</footer>
+						</div>
+					</section>
+					<div class="slds-backdrop slds-backdrop_open"></div>
+				</div>
+			</template>
+		</div>
+		<!-------------------------------------------------------- End of Update Status Modal Screen -------------------------------------------------------->
+
+		<!-- Start of Select Care Modal -->
+		<div class="slds-theme_default">
+			<template if:true={openSelectCareModal}>
+				<div>
+					<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+						<div class="slds-modal__container">
+							<header class="slds-modal__header">
+								<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeSelectCareModal}>
+									<lightning-icon icon-name="utility:close" size="medium">
+									</lightning-icon>
+									<span class="slds-assistive-text">Close</span>
+								</button>
+								<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"></h2>
+							</header>
+	
+							<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2" style="height:60px;">  
+								<p><b>Please refresh this Boarding Wizard page after performing appropriate action on the select care number page.</b></p>
+							</div>
+	
+							<footer class="slds-modal__footer">
+								<lightning-button label="Open" variant="brand" onclick={openSelectCareNumberPage}></lightning-button>
+								&nbsp;<lightning-button label="Cancel" variant="neutral" onclick={closeSelectCareModal}></lightning-button>
+							</footer>
+						</div>
+					</section>
+					<div class="slds-backdrop slds-backdrop_open"></div>
+				</div>
+			</template>
+		</div>
+		<!-- End of Select Care Modal -->
+
+  </template>
+</template>
+<!-------------------------------------------------------- End of Main Template -------------------------------------------------------->
