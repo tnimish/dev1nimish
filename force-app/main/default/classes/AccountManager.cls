@@ -36,8 +36,6 @@ public class AccountManager
     // Santosh - changes made to reference developerNames instead of label WI 1535
       public static Id rTIdAccountGuarantorOwner = Constants.AccountRTGuarantor;
     
-
-    public static List<DBA_Name__c> getDBARecordsForThisRealtionship(id relationshipId)
     {
         List<account> acctsList = [select id, (select id, dba_name__c from DBA_Names__r where relationship__c =: relationshipId) from account where id=:relationshipId];
 
