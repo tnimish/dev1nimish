@@ -1,6 +1,6 @@
 <!-------------------------------------------------------- Start of Main Template -------------------------------------------------------->
 <template>
-	<template if:true={isConsolidatedUW}>
+  <template if:true={isConsolidatedUW}>
 	<br/>  
 	<div style="text-align:center">This underwriting has been consolidated with another underwriting.  Please <b><a href={consolidatedUWURL}>click here</a></b> to launch the Boarding Wizard for the consolidated underwriting.</div>
   </template>
@@ -97,17 +97,17 @@
 							<tbody>
 								<tr class="slds-hint-parent">
 									<td data-label="Starting Record (NDA / Case)">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											<lightning-formatted-url value={startingRecordURL} tooltip={startingRecordURL} label={startingRecordName} target="_blank" ></lightning-formatted-url>
 										</div>
 									</td>
 									<td data-label="Underwriting Request">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;width:200px;">
 											<lightning-formatted-url value={uwRecordURL} tooltip={uwRecordURL} label={uwRecordName} target="_blank" ></lightning-formatted-url>
 										</div>
 									</td>
 									<td data-label="Underwriting Stage">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{uwCurrentStage}
 										</div>
 									</td>
@@ -117,22 +117,22 @@
 										</div>
 									</td>
 									<td data-label="Underwriting Record Type">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{uwRecordTypeName}
 										</div>
 									</td>
 									<td data-label="Review Type">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{uwReviewType}
 										</div>
 									</td>
 									<td data-label="Initiating Account">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;width:200px;">
 											<lightning-formatted-url value={initiatingAccountRecordURL} tooltip={initiatingAccountRecordURL} label={initiatingAccountRecordName} target="_blank" ></lightning-formatted-url>
 										</div>
 									</td>
 									<td data-label="Underwriting Owner">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{currentOwnerName}
 										</div>
 									</td>
@@ -252,42 +252,42 @@
 							<tbody>
 								<tr class="slds-hint-parent">
 									<td data-label="Starting Record (NDA / Case)">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											<lightning-formatted-url value={startingRecordURL} tooltip={startingRecordURL} label={startingRecordName} target="_blank"></lightning-formatted-url>
 										</div>
 									</td>
 									<td data-label="Underwriting Request">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;width:200px;">
 											<lightning-formatted-url value={uwRecordURL} tooltip={uwRecordURL} label={uwRecordName}  target="_blank"></lightning-formatted-url>
 										</div>
 									</td>
 									<td data-label="Underwriting Stage">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{uwCurrentStage}
 										</div>
 									</td>
 									<td data-label="Underwriting Status">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{uwCurrentStatus}
 										</div>
 									</td>
 									<td data-label="Underwriting Record Type">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{uwRecordTypeName}
 										</div>
 									</td>
 									<td data-label="Review Type">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{uwReviewType}
 										</div>
 									</td>
 									<td data-label="Initiating Account">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;width:200px;">
 											<lightning-formatted-url value={initiatingAccountRecordURL} tooltip={initiatingAccountRecordURL}   label={initiatingAccountRecordName} target="_blank"></lightning-formatted-url>
 										</div>
 									</td>
 									<td data-label="Underwriting Owner">
-										<div class="slds-truncate">
+										<div class="slds-truncate" style="word-wrap: break-word;">
 											{currentOwnerName}
 										</div>
 									</td>
@@ -354,10 +354,10 @@
 												   </template>
 												   
 												   <template if:true={step.element1Wrapper.isButtonSpinner}>
-                                                        <div style="text-align:right" if:true={step.element1Wrapper.isButtonSpinner}>
-                                                            <img src = "/img/loading.gif" width="20px" height="20px" >
-                                                            &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.Please wait ...&nbsp;</span>
-                                                        </div>
+                              <div style="text-align:right" if:true={step.element1Wrapper.isButtonSpinner}>
+                              	<img src = "/img/loading.gif" width="20px" height="20px" >
+                                &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Processing. Please wait ...&nbsp;</span>
+                              </div>
 													</template>
 													
 												</lightning-layout-item>
@@ -386,14 +386,14 @@
 													</template>
 												</template>
 												<lightning-layout-item if:true={step.element1Wrapper.isCurrency}>
-													<lightning-input type="number" formatter="currency" label={step.element1Wrapper.elementLabel} placeholder={step.element1Wrapper.elementLabel} title={step.element1Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element1Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element1Wrapper.elementSelectedPicklistValue}></lightning-input>
+													<lightning-input type="number" formatter="currency" label={step.element1Wrapper.elementLabel} placeholder={step.element1Wrapper.elementLabel} title={step.element1Wrapper.elementLabel} variant="label-hidden" onblur={handleChange} data-id={step.element1Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element1Wrapper.elementSelectedPicklistValue}></lightning-input>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element1Wrapper.isDate}>
 													<lightning-input type="date" label={step.element1Wrapper.elementLabel} placeholder={step.element1Wrapper.elementLabel} title={step.element1Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element1Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element1Wrapper.elementSelectedPicklistValue}></lightning-input>
 												</lightning-layout-item>
 											    <lightning-layout-item if:true={step.element1Wrapper.isLookup}>
 													<div style="width: 250px;">
-														<c-custom-lookup searchfield={step.element1Wrapper.lookupFieldName} object-name={step.element1Wrapper.lookupObjectName} onselectedrec={handleselect} selected-record={step.lookupSelectedValue} placeholder={step.lookupPlaceHolderText} recordids-to-search={step.element1Wrapper.validLookupRecordIds}></c-custom-lookup>
+														<c-custom-lookup searchfield={step.element1Wrapper.lookupFieldName} object-name={step.element1Wrapper.lookupObjectName} data-steptitle={step.stepTitle} onselectedrec={handleselect} selected-record={step.element1Wrapper.lookupSelectedValue} placeholder={step.lookupPlaceHolderText} recordids-to-search={step.element1Wrapper.validLookupRecordIds}></c-custom-lookup>
 													</div>
 												</lightning-layout-item> 
 												<!-- Element 2 Wrapper -->
@@ -404,7 +404,7 @@
 													<template if:true={step.element2Wrapper.isButtonSpinner}>
 															<div style="text-align:right" if:true={step.element2Wrapper.isButtonSpinner}>
 																<img src = "/img/loading.gif" width="20px" height="20px" >
-																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Processing.  Please wait ...&nbsp;</span>
 															</div>
 														</template>
 													</lightning-layout-item>
@@ -424,7 +424,7 @@
 													</lightning-combobox>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element2Wrapper.isCurrency}>
-													<lightning-input type="number" formatter="currency" label={step.element2Wrapper.elementLabel} placeholder={step.element2Wrapper.elementLabel} title={step.element2Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element2Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element2Wrapper.elementSelectedPicklistValue}></lightning-input>
+													<lightning-input type="number" formatter="currency" label={step.element2Wrapper.elementLabel} placeholder={step.element2Wrapper.elementLabel} title={step.element2Wrapper.elementLabel} variant="label-hidden" onblur={handleChange} data-id={step.element2Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element2Wrapper.elementSelectedPicklistValue}></lightning-input>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element2Wrapper.isDate}>
 														<lightning-input type="date" label={step.element2Wrapper.elementLabel} placeholder={step.element2Wrapper.elementLabel} title={step.element2Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element2Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element2Wrapper.elementSelectedPicklistValue}></lightning-input>
@@ -438,7 +438,7 @@
 													<template if:true={step.element3Wrapper.isButtonSpinner}>
 															<div style="text-align:right" if:true={step.element3Wrapper.isButtonSpinner}>
 																<img src = "/img/loading.gif" width="20px" height="20px" >
-																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Processing.  Please wait ...&nbsp;</span>
 															</div>
 														</template>
 													</lightning-layout-item>
@@ -458,7 +458,7 @@
 													</lightning-combobox>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element3Wrapper.isCurrency}>
-													<lightning-input type="number" formatter="currency" label={step.element3Wrapper.elementLabel} placeholder={step.element3Wrapper.elementLabel} title={step.element3Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element3Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element3Wrapper.elementSelectedPicklistValue}></lightning-input>
+													<lightning-input type="number" formatter="currency" label={step.element3Wrapper.elementLabel} placeholder={step.element3Wrapper.elementLabel} title={step.element3Wrapper.elementLabel} variant="label-hidden" onblur={handleChange} data-id={step.element3Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element3Wrapper.elementSelectedPicklistValue}></lightning-input>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element3Wrapper.isDate}>
 														<lightning-input type="date" label={step.element3Wrapper.elementLabel} placeholder={step.element3Wrapper.elementLabel} title={step.element3Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element3Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element3Wrapper.elementSelectedPicklistValue}></lightning-input>
@@ -472,7 +472,7 @@
 													<template if:true={step.element4Wrapper.isButtonSpinner}>
 															<div style="text-align:right" if:true={step.element4Wrapper.isButtonSpinner}>
 																<img src = "/img/loading.gif" width="20px" height="20px" >
-																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+																&nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your request is being processed.  Please wait ...&nbsp;</span>
 															</div>
 														</template>
 													</lightning-layout-item>
@@ -492,7 +492,7 @@
 													</lightning-combobox>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element4Wrapper.isCurrency}>
-													<lightning-input type="number" formatter="currency" label={step.element4Wrapper.elementLabel} placeholder={step.element4Wrapper.elementLabel} title={step.element4Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element4Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element4Wrapper.elementSelectedPicklistValue}></lightning-input>
+													<lightning-input type="number" formatter="currency" label={step.element4Wrapper.elementLabel} placeholder={step.element4Wrapper.elementLabel} title={step.element4Wrapper.elementLabel} variant="label-hidden" onblur={handleChange} data-id={step.element4Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element4Wrapper.elementSelectedPicklistValue}></lightning-input>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element4Wrapper.isDate}>
 														<lightning-input type="date" label={step.element4Wrapper.elementLabel} placeholder={step.element4Wrapper.elementLabel} title={step.element4Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element4Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element4Wrapper.elementSelectedPicklistValue}></lightning-input>
@@ -506,7 +506,7 @@
 													<template if:true={step.element5Wrapper.isButtonSpinner}>
                                                             <div style="text-align:right" if:true={step.element5Wrapper.isButtonSpinner}>
                                                                 <img src = "/img/loading.gif" width="20px" height="20px" >
-                                                                &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Your Request is being processed.  Please wait ...&nbsp;</span>
+                                                                &nbsp;&nbsp;<span style="color:red;font-size:15px;font-weight:bold;">Processing.  Please wait ...&nbsp;</span>
                                                             </div>
                                                     </template>
 												</lightning-layout-item>
@@ -526,7 +526,7 @@
 													</lightning-combobox>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element5Wrapper.isCurrency}>
-													<lightning-input type="number" formatter="currency" label={step.element5Wrapper.elementLabel} placeholder={step.element5Wrapper.elementLabel} title={step.element5Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element5Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element5Wrapper.elementSelectedPicklistValue}></lightning-input>
+													<lightning-input type="number" formatter="currency" label={step.element5Wrapper.elementLabel} placeholder={step.element5Wrapper.elementLabel} title={step.element5Wrapper.elementLabel} variant="label-hidden" onblur={handleChange} data-id={step.element5Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element5Wrapper.elementSelectedPicklistValue}></lightning-input>
 												</lightning-layout-item>
 												<lightning-layout-item if:true={step.element5Wrapper.isDate}>
 														<lightning-input type="date" label={step.element2Wrapper.elementLabel} placeholder={step.element5Wrapper.elementLabel} title={step.element5Wrapper.elementLabel} variant="label-hidden" onchange={handleChange} data-id={step.element5Wrapper.elementActionName} data-steptitle={step.stepTitle} value={step.element5Wrapper.elementSelectedPicklistValue}></lightning-input>
@@ -537,15 +537,20 @@
 									<td style="text-align:center">
 										<!--{step.userAnswer}-->
 										<template if:false={step.readOnlyCheckMark}>
-											<template if:false={step.stepCompleted}>
-												<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle}  style="font-size:24px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center">
-													<img data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=true src={bwgraycheckbox} onclick={handleStepCompletedClick}/>
-												</div>
+											<template if:false={step.isStepCompletedSpinner}>
+												<template if:false={step.stepCompleted}>
+													<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle}  style="font-size:24px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center">
+														<img data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=true src={bwgraycheckbox} onclick={handleStepCompletedClick}/>
+													</div>
+												</template>
+												<template if:true={step.stepCompleted}>
+													<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle} style="font-size:14px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center" >
+														<img data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=false src={bwgraycheckboxcheckedgreen} onclick={handleStepCompletedClick}/>
+													</div>
+												</template>
 											</template>
-											<template if:true={step.stepCompleted}>
-												<div  data-id={step.stepRecordId} data-steptitle={step.stepTitle} style="font-size:14px;cursor: pointer;height:26px;"  class="slds-truncate slds-align_absolute-center" >
-													<img data-id={step.stepRecordId} data-steptitle={step.stepTitle} data-checked=false src={bwgraycheckboxcheckedgreen} onclick={handleStepCompletedClick}/>
-												</div>
+											<template if:true={step.isStepCompletedSpinner}>
+													<img src = "/img/loading.gif" width="20px" height="20px">
 											</template>
 										</template >
 										<template if:true={step.readOnlyCheckMark}>
@@ -1156,15 +1161,15 @@
 					<!-------------------------------------------------------- End of CBR Screen -------------------------------------------------------->
 
 					<!-------------------------------------------------------- Start of Move to UW, Doc Creation, Account Setup stage screens -------------------------------------------------------->
-						<div if:true={displayMoveToNextStageTable} style="width:100%"> 
+						<div if:true={displayMoveToNextStageTable} style="width:100%;text-align:center"> 
 						<br/><br/>
-						<table style="width:50%;text-align:center;" class="slds-box">
+						<table style="width:50%;text-align:center;" class="slds-box slds-align_absolute-center">
 							<tr style="text-align:center">
 								<td colspan="2" style="text-align:center">
 									<template if:true={activeStageIsRequest}>
 										<template if:true={routeToCreditBoolean}>
 											<b>This underwriting will be routed to the Credit Team Queue for review.</b><br/>
-											(Reason: <span style="color:blue"><lightning-formatted-text value={routeToCreditReason}></lightning-formatted-text></span>)<br/>
+											(Reason: <span style="color:blue"><lightning-formatted-rich-text value={routeToCreditReason}></lightning-formatted-rich-text></span>)<br/>
 										</template>
 										<template if:false={routeToCreditBoolean}>
 											This underwriting may be eligible for Auto Decision and will stay with ISR or CRA.<br/>
@@ -1173,21 +1178,26 @@
 									Click Yes if you are ready to move this Underwriting request to the next stage.<br/><br/>
 								</td>
 							</tr>
-							<tr>								
-								<td style="width:50%;text-align:center">
-									&nbsp;
-								</td>
-								<td style="width:50%;text-align:center" if:false={buttonSpinner}>
-									<lightning-formatted-text value="Next Follow Up Date"></lightning-formatted-text>
-								</td>
-							</tr>
+							<template if:true={isMoveToUWStageScreen}>
+								<tr>								
+									<td style="width:50%;text-align:center">
+										&nbsp;
+									</td>
+									<td style="width:50%;text-align:center" if:false={buttonSpinner}>
+										<lightning-formatted-text value="Next Follow Up Date"></lightning-formatted-text>
+									</td>
+								</tr>
+							</template>
 							<tr>
 								<td style="width:25%;text-align:center" if:false={buttonSpinner}>
-									<lightning-formatted-text value="Ready?"></lightning-formatted-text>&nbsp;<lightning-button label="Yes" variant="neutral" data-id="docVaultYes" onclick={moveUWToNextStage}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">OR</span></b>
+									<lightning-formatted-text value="Ready?"></lightning-formatted-text>&nbsp;<lightning-button label="Yes" variant="neutral" data-id="docVaultYes" onclick={moveUWToNextStage}></lightning-button>
+									<span style="color:red" if:true={isMoveToUWStageScreen}><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR</b></span>
 								</td>
+								<template if:true={isMoveToUWStageScreen}>
 								<td style="width:50%" if:false={buttonSpinner}>
 									<lightning-input type="date" onchange={handleChange} variant="label-hidden" data-id="nextFollowUpDate" value={defaultNextFollowUpDate}></lightning-input>																									
 								</td>
+								</template>
 							</tr>
 							<tr>
 								<td style="width:100%" if:true={buttonSpinner} colspan="2">
@@ -1200,7 +1210,7 @@
 							</tr>
 						</table>
 						</div>
-						<div if:false={displayMoveToNextStageTable}>
+						<div if:false={displayMoveToNextStageTable} style="width:100%;text-align:center;color:green">
 							<div if:true={isMoveToUWStageScreen}>{requestAlreadyInNextStageMessage}</div>
 							<div if:true={isMoveToDocCreationStageScreen}>{requestAlreadyInNextStageMessage}</div>
 							<div if:true={isMoveToAcctSetupStageScreen}>{requestAlreadyInNextStageMessage}</div>
@@ -1277,7 +1287,7 @@
 												</div>
 												  <template if:true={a.isNew}>
 													  <!--<tr> -->
-														<td style="width:50px;"><lightning-button label="Cancel" variant="destructive" class="slds-m-left_x-small" data-id="newAddress" data-index={a.index} icon-position="right" icon-name="utility:cancel"   type="submit" onclick={removeLocation} name="cancel" style="width:50px;"></lightning-button>
+														<td style="width:50px;"><lightning-button label="Cancel" variant="destructive" class="slds-m-left_x-small" data-id="newAddress" data-index={a.index} type="submit" onclick={removeLocation} name="cancel" style="width:50px;"></lightning-button>
 														</td>
 														<!--</tr> -->
 													</template>
@@ -1312,7 +1322,7 @@
 							<br/><br/>
 							<div style="text-align:center"> 
 							  <template if:false={buttonSpinnerNewAddress}>
-								<lightning-button label="Add New Location" data-id="newAddress" icon-position="right" icon-name="utility:save"   type="submit" onclick={createNewLocation} name="newAddress" ></lightning-button>&nbsp;
+								<lightning-button label="Add New Location" data-id="newAddress" icon-position="right" icon-name="utility:add"   type="submit" onclick={createNewLocation} name="newAddress" ></lightning-button>&nbsp;
 							  </template>
 							  <template if:true={buttonSpinnerNewAddress}>
 								<div style="text-align:right"><img src = "/img/loading.gif" width="20px" height="20px" >
@@ -1350,14 +1360,17 @@
 							</template>
 						</template>
 						<!-------------------------------------------------------- End of Doc Acceptance Screen -------------------------------------------------------->
-						<!-------------- start of underwriting screen ------------------------>
 						
+						<!-------------- start of underwriting screen ------------------------>
+						<!--
 						<template if:true={InUWScreen}>
                             <div  if:true={areAllUWStageScreensCompleted}>
                                 <lightning-formatted-text value="Ready for Document Creation?"></lightning-formatted-text><lightning-button label="Yes" variant="neutral" data-id="underwritingYes" onclick={moveUWToNextStage}></lightning-button>
                             </div>
 						</template>
+						-->
 						<!------ end of underwriting screen  -------------------------------------->
+						
 						<!-------------------------------------------------------- Start of Security Search & Filing Screen -------------------------------------------------------->
 						<template if:true={isSecurityFilingScreen}>
 							<br/>
@@ -1366,7 +1379,6 @@
 								<tr>
 									<td>Borrower / Guarantor</td>
 									<td style="text-align:center;">Billing Code</td>
-									<td style="text-align:center;">Certified</td>
 									<td style="text-align:center;">Special Instructions</td>
 									<td style="text-align:center;">Search</td>
 									<td style="text-align:center;">Filing Type</td>
@@ -1379,9 +1391,6 @@
 										</td>
 										<td style="text-align:left;">
 											<lightning-combobox label="Billing Code" placeholder="Select Billing Code" variant="label-hidden" options={billingCode} value={f.searchBillingCode} dropdown-alignment="bottom-left" style="overflow: initial;" data-id={f.key} data-index={f.index} data-varname="billingCode" disabled={f.existingSearch} onchange={handleChange}></lightning-combobox>	
-										</td>									
-										<td style="text-align:center;">
-											<lightning-input type="checkbox" checked={f.certified} data-id={f.key} data-index={f.index} data-varname="certified" data-checked={f.certified} onchange={handleChange} disabled={f.existingSearch}></lightning-input>
 										</td>
 										<td style="text-align:center;">
 											<lightning-input value={f.specialInstructions} variant="label-hidden" data-id={f.key} data-index={f.index} data-varname="instructions" onchange={handleChange} disabled={f.existingSearch}></lightning-input>
@@ -1442,9 +1451,11 @@
 								</table>
 								<br/>
 								<br/>
+								<!--
 								<div  if:true={areAllDocStageScreensCompleted}>
 									<lightning-formatted-text value="Ready for Account Setup?"></lightning-formatted-text><lightning-button label="Yes" variant="neutral" data-id="regCheckYes" onclick={moveUWToNextStage}></lightning-button>
 								</div>
+							-->
 							</template>
 		
 			   <!-- end of regcheck cases table-->
@@ -1508,12 +1519,19 @@
 
 		&nbsp;&nbsp;
 		<div style="vertical-align:top;background-color:#FAFAF9;" class="custom-box slds-box slds-p-around_medium">
-			<table style="width:290px;vertical-align:top;background-color:#FAFAF9;">
+			<table style="width:310px;vertical-align:top;background-color:#FAFAF9;">
 				<tr>
 					<td style="vertical-align:top;background-color:#FAFAF9;">
 						<template if:true={displayScreensList}>
 							<div>&nbsp;</div>
 							<div style="background-color:#FAFAF9;vertical-align:top">
+								<template if:true={isWelcomeScreen} > 
+									<div style="text-align:center">
+										<button data-id={screenName} class="slds-button slds-button_neutral" onclick={openWindowChangeOwner} style="width:240px;" >
+											Change Boarding Specialist</button>
+										<div>&nbsp;</div>
+									</div>
+								</template>
 								<template if:true={displayScreensList}>
 									<div style="text-align:center">
 										<button onclick={openUWModal} class="slds-button slds-button_neutral" style="width:240px;">Update Underwriting Status</button>
